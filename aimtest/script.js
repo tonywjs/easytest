@@ -73,14 +73,14 @@ document.addEventListener('DOMContentLoaded', function() {
     gameProgress.textContent = `1/${gameState.maxAttempts}`;
     progressBar.style.width = '10%';
     currentScore.textContent = '0ms';
-    gameActionBtn.textContent = '시작';
+    gameActionBtn.textContent = window.i18n.getText('start');
     gameActionBtn.disabled = false;
-    
+
     // 에임 테스트 UI 설정
     gameContainer.innerHTML = '';
     const aimInstructions = document.createElement('div');
     aimInstructions.className = 'aim-instructions';
-    aimInstructions.innerHTML = '<p class="text-xl font-semibold text-gray-600">시작 버튼을 누르면 타겟이 나타납니다</p>';
+    aimInstructions.innerHTML = '<p class="text-xl font-semibold text-gray-600">' + window.i18n.getText('pressStartTarget') + '</p>';
     gameContainer.appendChild(aimInstructions);
   }
 
@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', function() {
     gameState.currentAttempt = 0;
     gameState.results = [];
     
-    gameActionBtn.textContent = '테스트 중...';
+    gameActionBtn.textContent = window.i18n.getText('testing');
     gameActionBtn.disabled = true;
     
     startAimTest();
@@ -201,13 +201,11 @@ document.addEventListener('DOMContentLoaded', function() {
     gameContainer.innerHTML = '';
     const completeMessage = document.createElement('div');
     completeMessage.className = 'test-complete-message aim-instructions';
-    completeMessage.innerHTML = `
-      <div class="text-center">
-        <i class="fas fa-check-circle text-4xl text-green-500 mb-2"></i><br>
-        에임 테스트 완료!<br>
-        <small>잠시 후 결과를 확인할 수 있습니다.</small>
-      </div>
-    `;
+    completeMessage.innerHTML = '<div class="text-center">' +
+      '<i class="fas fa-check-circle text-4xl text-green-500 mb-2"></i><br>' +
+      window.i18n.getText('testComplete') + '<br>' +
+      '<small>' + window.i18n.getText('resultSoon') + '</small>' +
+      '</div>';
     gameContainer.appendChild(completeMessage);
     
     setTimeout(() => {
@@ -238,17 +236,19 @@ document.addEventListener('DOMContentLoaded', function() {
     }, 500);
     
     // 결과 설명 및 아이콘 설정
+    const descPrefix = window.i18n.getText('aimResultDesc');
+    const descSuffix = window.i18n.getText('reactionResultUnit');
     if (averageScore < 180) {
-      resultDescription.innerHTML = `당신의 평균 에임 반응 속도는 <span class="font-bold text-indigo-600">${averageScore}ms</span>로, 최고 수준의 에임 실력을 가지고 있습니다! 🎯`;
+      resultDescription.innerHTML = descPrefix + ' <span class="font-bold text-indigo-600">' + averageScore + 'ms</span> ' + window.i18n.getText('excellent') + ' ' + descSuffix + ' 🎯';
       resultIcon.className = 'fas fa-trophy text-5xl text-amber-500 mb-2';
     } else if (averageScore < 220) {
-      resultDescription.innerHTML = `당신의 평균 에임 반응 속도는 <span class="font-bold text-indigo-600">${averageScore}ms</span>로, 프로게이머급 에임 실력입니다! 🥇`;
+      resultDescription.innerHTML = descPrefix + ' <span class="font-bold text-indigo-600">' + averageScore + 'ms</span> ' + window.i18n.getText('proGamer') + ' ' + descSuffix + ' 🥇';
       resultIcon.className = 'fas fa-medal text-5xl text-indigo-500 mb-2';
     } else if (averageScore < 350) {
-      resultDescription.innerHTML = `당신의 평균 에임 반응 속도는 <span class="font-bold text-indigo-600">${averageScore}ms</span>로, 일반인 평균 수준입니다. 👍`;
+      resultDescription.innerHTML = descPrefix + ' <span class="font-bold text-indigo-600">' + averageScore + 'ms</span> ' + window.i18n.getText('good') + ' ' + descSuffix + ' 👍';
       resultIcon.className = 'fas fa-user text-5xl text-blue-500 mb-2';
     } else {
-      resultDescription.innerHTML = `당신의 평균 에임 반응 속도는 <span class="font-bold text-indigo-600">${averageScore}ms</span>로, 더 연습하면 향상될 수 있습니다! 💪`;
+      resultDescription.innerHTML = descPrefix + ' <span class="font-bold text-indigo-600">' + averageScore + 'ms</span> ' + window.i18n.getText('tryAgainMsg') + ' ' + descSuffix + ' 💪';
       resultIcon.className = 'fas fa-hourglass-half text-5xl text-gray-500 mb-2';
     }
     
@@ -265,7 +265,7 @@ document.addEventListener('DOMContentLoaded', function() {
       else if (result > 400) colorClass = 'text-red-600';
       
       resultItem.innerHTML = `
-        <span>타겟 ${index + 1}</span>
+        <span>${window.i18n.getText('targetLabel')} ${index + 1}</span>
         <span class="${colorClass}">${result}ms</span>
       `;
       gameResults.appendChild(resultItem);
@@ -273,9 +273,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 비교 테이블 생성
     comparisonTable.innerHTML = '';
-    addComparisonRow('최고 수준', referenceData.limit.avg, averageScore - referenceData.limit.avg);
-    addComparisonRow('프로게이머', referenceData.proGamer.avg, averageScore - referenceData.proGamer.avg);
-    addComparisonRow('일반인', referenceData.average.avg, averageScore - referenceData.average.avg);
+    addComparisonRow(window.i18n.getText('topLevel'), referenceData.limit.avg, averageScore - referenceData.limit.avg);
+    addComparisonRow(window.i18n.getText('proGamer'), referenceData.proGamer.avg, averageScore - referenceData.proGamer.avg);
+    addComparisonRow(window.i18n.getText('normalUser'), referenceData.average.avg, averageScore - referenceData.average.avg);
     
     // 공유 버튼 설정
     setupShareButtons(averageScore);
@@ -306,7 +306,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // 공유 버튼 설정 함수
   function setupShareButtons(score) {
     // 공유 텍스트 생성
-    const shareText = `내 에임테스트 결과: ${score}ms! 당신의 에임 실력은 어떤가요? #에임테스트 #프로게이머테스트`;
+    const shareText = window.i18n.getText('aimShareText').replace('{score}', score);
     const shareUrl = window.location.href;
     
     // 결과에 따른 메시지와 이미지 설정
@@ -314,16 +314,16 @@ document.addEventListener('DOMContentLoaded', function() {
     let resultImage = '';
     
     if (score < 180) {
-      resultMessage = `🎯 최고 수준의 에임! ${score}ms로 놀라운 에임 실력을 보여줬습니다!`;
+      resultMessage = window.i18n.getText('aimResultExcellent').replace('{score}', score);
       resultImage = 'https://via.placeholder.com/800x400/FFD700/000000?text=최고수준!';
     } else if (score < 220) {
-      resultMessage = `🏆 프로게이머급 에임! ${score}ms로 뛰어난 에임 실력입니다!`;
+      resultMessage = window.i18n.getText('aimResultPro').replace('{score}', score);
       resultImage = 'https://via.placeholder.com/800x400/C0C0C0/000000?text=프로게이머급!';
     } else if (score < 350) {
-      resultMessage = `👍 평균적인 에임! ${score}ms로 일반인 수준의 에임 실력입니다.`;
+      resultMessage = window.i18n.getText('aimResultAverage').replace('{score}', score);
       resultImage = 'https://via.placeholder.com/800x400/CD7F32/000000?text=평균!';
     } else {
-      resultMessage = `💪 연습이 필요해요! ${score}ms... 더 연습하면 향상될 수 있어요!`;
+      resultMessage = window.i18n.getText('aimResultNeedsWork').replace('{score}', score);
       resultImage = 'https://via.placeholder.com/800x400/808080/000000?text=연습필요!';
     }
     
@@ -334,7 +334,7 @@ document.addEventListener('DOMContentLoaded', function() {
           Kakao.Share.sendDefault({
             objectType: 'feed',
             content: {
-              title: '🎯 에임테스트 결과',
+              title: window.i18n.getText('aimTestResult'),
               description: resultMessage,
               imageUrl: resultImage,
               link: {
@@ -343,21 +343,21 @@ document.addEventListener('DOMContentLoaded', function() {
               },
             },
             itemContent: {
-              profileText: '에임테스트',
+              profileText: window.i18n.getText('aimTest'),
               profileImageUrl: resultImage,
               titleImageUrl: resultImage,
-              titleImageText: `${score}ms 에임 반응속도`,
-              titleImageCategory: '테스트 결과',
+              titleImageText: window.i18n.getText('aimReactionSpeed').replace('{score}', score),
+              titleImageCategory: window.i18n.getText('testResult'),
               items: gameState.results.map((result, index) => ({
-                item: `타겟 ${index + 1}`,
+                item: `${window.i18n.getText('targetLabel')} ${index + 1}`,
                 itemOp: `${result}ms`,
               })),
-              sum: '평균 에임 반응속도',
+              sum: window.i18n.getText('aimAvgReactionSpeed'),
               sumOp: `${score}ms`,
             },
             buttons: [
               {
-                title: '나도 테스트하기',
+                title: window.i18n.getText('tryTestToo'),
                 link: {
                   mobileWebUrl: shareUrl,
                   webUrl: shareUrl,
@@ -367,23 +367,23 @@ document.addEventListener('DOMContentLoaded', function() {
           });
         } else {
           // 카카오 SDK가 초기화되지 않았을 때 대체 동작
-          const fallbackText = `${resultMessage}\n\n당신의 에임 실력은 어떤가요?\n테스트 해보세요: ${shareUrl}`;
+          const fallbackText = `${resultMessage}\n\n${window.i18n.getText('aimShareQuestion')} ${shareUrl}`;
           
           if (navigator.share) {
             navigator.share({
-              title: '🎯 에임테스트 결과',
+              title: window.i18n.getText('aimTestResult'),
               text: fallbackText,
               url: shareUrl
             }).catch(err => console.log('공유 실패:', err));
           } else {
             navigator.clipboard.writeText(fallbackText).then(function() {
-              copySuccessMessage.textContent = '카카오톡 공유 텍스트가 복사되었습니다!';
+              copySuccessMessage.textContent = window.i18n.getText('kakaoShareCopied');
               copySuccessMessage.classList.remove('hidden');
               setTimeout(() => {
                 copySuccessMessage.classList.add('hidden');
               }, 3000);
             }).catch(function() {
-              alert('공유할 텍스트:\n' + fallbackText);
+              alert(window.i18n.getText('shareTextAlert') + '\n' + fallbackText);
             });
           }
         }
@@ -401,16 +401,16 @@ document.addEventListener('DOMContentLoaded', function() {
     // 인스타그램 공유
     if (instagramShare) {
       instagramShare.addEventListener('click', function() {
-        const instagramText = `내 에임테스트 결과: ${score}ms!\n\n당신의 에임 실력은 어떤가요? 🎯\n\n#에임테스트 #프로게이머테스트 #게임 #에임 #도전`;
+        const instagramText = window.i18n.getText('aimInstagramText').replace('{score}', score);
         
         navigator.clipboard.writeText(instagramText).then(function() {
-          copySuccessMessage.textContent = '인스타그램 공유 텍스트가 복사되었습니다!';
+          copySuccessMessage.textContent = window.i18n.getText('instagramShareCopied');
           copySuccessMessage.classList.remove('hidden');
           setTimeout(() => {
             copySuccessMessage.classList.add('hidden');
           }, 3000);
         }).catch(function() {
-          alert('텍스트 복사에 실패했습니다. 수동으로 복사해주세요:\n\n' + instagramText);
+          alert(window.i18n.getText('copyFailed') + '\n\n' + instagramText);
         });
       });
     }
@@ -419,7 +419,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (linkCopy) {
       linkCopy.addEventListener('click', function() {
         navigator.clipboard.writeText(shareUrl).then(function() {
-          copySuccessMessage.textContent = '링크가 복사되었습니다!';
+          copySuccessMessage.textContent = window.i18n.getText('linkCopied');
           copySuccessMessage.classList.remove('hidden');
           setTimeout(() => {
             copySuccessMessage.classList.add('hidden');
@@ -439,7 +439,7 @@ document.addEventListener('DOMContentLoaded', function() {
       results: [],
       totalScore: 0
     };
-    gameActionBtn.textContent = '시작';
+    gameActionBtn.textContent = window.i18n.getText('start');
     gameActionBtn.disabled = false;
   }
-}); 
+});

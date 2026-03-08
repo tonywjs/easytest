@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // 초기화
   function init() {
-    bestScore.textContent = gameState.bestRecord > 0 ? `${gameState.bestRecord}단계` : '-';
+    bestScore.textContent = gameState.bestRecord > 0 ? `${gameState.bestRecord}${window.i18n.getText('stageUnit')}` : '-';
   }
 
   // 시작 버튼 이벤트
@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', function() {
       console.log('나가기 버튼 클릭됨, testActive:', gameState.testActive);
       
       if (gameState.testActive) {
-        const shouldExit = confirm('게임을 중단하고 처음으로 돌아가시겠습니까?');
+        const shouldExit = confirm(window.i18n.getText('exitConfirm'));
         console.log('사용자 응답:', shouldExit);
         if (shouldExit) {
           exitToIntro();
@@ -109,9 +109,9 @@ document.addEventListener('DOMContentLoaded', function() {
   function initializeGame() {
     currentLevel.textContent = gameState.currentLevel;
     updateLivesDisplay();
-    gameActionBtn.textContent = '게임 시작';
+    gameActionBtn.textContent = window.i18n.getText('gameStart');
     gameActionBtn.disabled = false;
-    
+
     // 3x3 그리드 생성
     createGameGrid();
   }
@@ -138,7 +138,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // 게임 시작
   function startGame() {
     gameState.testActive = true;
-    gameActionBtn.textContent = '게임 진행 중...';
+    gameActionBtn.textContent = window.i18n.getText('gameInProgress');
     gameActionBtn.disabled = true;
     
     generateSequence();
@@ -163,7 +163,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // 안내 메시지 표시
-    showMessage('카드 순서를 기억하세요!', 'info');
+    showMessage(window.i18n.getText('rememberOrder'), 'info');
     
     let sequenceIndex = 0;
     
@@ -172,7 +172,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // 시퀀스 표시 완료
         gameState.isShowingSequence = false;
         gameState.isPlayerTurn = true;
-        showMessage('기억한 순서대로 카드를 클릭하세요!', 'success');
+        showMessage(window.i18n.getText('clickInOrder'), 'success');
         enablePlayerInput();
         return;
       }
@@ -280,14 +280,14 @@ document.addEventListener('DOMContentLoaded', function() {
     
     if (gameState.lives <= 0) {
       // 게임 오버
-      showMessage('게임 오버!', 'error');
+      showMessage(window.i18n.getText('gameOverMsg'), 'error');
       setTimeout(() => {
         endGame();
       }, 2000);
     } else {
       // 해당 단계 재시도 - 플레이어 시퀀스만 리셋하고 같은 단계 다시 표시
       gameState.playerSequence = [];
-      showMessage(`틀렸습니다! 라이프 ${gameState.lives}개 남음`, 'error');
+      showMessage(`${window.i18n.getText('wrongAnswer')} ${window.i18n.getText('lives')} ${gameState.lives}${window.i18n.getText('livesRemaining')}`, 'error');
       setTimeout(() => {
         showSequence();
       }, 2000);
@@ -360,20 +360,23 @@ document.addEventListener('DOMContentLoaded', function() {
     gameSection.classList.add('hidden');
     resultSection.classList.remove('hidden');
     
-    finalLevel.textContent = `${level}단계`;
+    finalLevel.textContent = `${level}${window.i18n.getText('stageUnit')}`;
     
     // 결과 설명 및 아이콘 설정
+    const stageUnitText = window.i18n.getText('stageUnit');
+    const finalStageLabel = window.i18n.getText('finalStage');
+    const stageSpan = '<span class="font-bold text-indigo-600">' + level + stageUnitText + '</span>';
     if (level >= 10) {
-      resultDescription.innerHTML = `최종 도달 단계: <span class="font-bold text-indigo-600">${level}단계</span><br>🧠 기억력 천재! 놀라운 집중력입니다!`;
+      resultDescription.innerHTML = finalStageLabel + ': ' + stageSpan + '<br>' + window.i18n.getText('memoryGenius') + '!';
       resultIcon.className = 'fas fa-crown text-5xl text-amber-500 mb-2';
     } else if (level >= 6) {
-      resultDescription.innerHTML = `최종 도달 단계: <span class="font-bold text-indigo-600">${level}단계</span><br>🔥 고수 수준! 뛰어난 기억력이에요!`;
+      resultDescription.innerHTML = finalStageLabel + ': ' + stageSpan + '<br>' + window.i18n.getText('expert') + '!';
       resultIcon.className = 'fas fa-fire text-5xl text-orange-500 mb-2';
     } else if (level >= 3) {
-      resultDescription.innerHTML = `최종 도달 단계: <span class="font-bold text-indigo-600">${level}단계</span><br>⭐ 초급자 수준! 더 연습하면 향상될 거예요!`;
+      resultDescription.innerHTML = finalStageLabel + ': ' + stageSpan + '<br>' + window.i18n.getText('beginner') + '!';
       resultIcon.className = 'fas fa-star text-5xl text-yellow-500 mb-2';
     } else {
-      resultDescription.innerHTML = `최종 도달 단계: <span class="font-bold text-indigo-600">${level}단계</span><br>💪 더 연습이 필요해요! 포기하지 마세요!`;
+      resultDescription.innerHTML = finalStageLabel + ': ' + stageSpan + '<br>' + window.i18n.getText('beginner');
       resultIcon.className = 'fas fa-dumbbell text-5xl text-gray-500 mb-2';
     }
     
@@ -387,17 +390,21 @@ document.addEventListener('DOMContentLoaded', function() {
       const statusClass = result.success ? 'text-green-600' : 'text-red-600';
       
       resultItem.innerHTML = `
-        <span>${result.level}단계 ${statusIcon}</span>
-        <span class="${statusClass} font-semibold">${result.success ? '성공' : '실패'}</span>
+        <span>${result.level}${window.i18n.getText('stageUnit')} ${statusIcon}</span>
+        <span class="${statusClass} font-semibold">${result.success ? window.i18n.getText('resultSuccess') : window.i18n.getText('resultFailure')}</span>
       `;
       gameResults.appendChild(resultItem);
     });
     
     // 비교 테이블 생성
     comparisonTable.innerHTML = '';
-    addComparisonRow('초급자', '3-5단계', level >= 3 && level <= 5 ? '달성!' : level > 5 ? '초과!' : '미달');
-    addComparisonRow('고수', '6-9단계', level >= 6 && level <= 9 ? '달성!' : level > 9 ? '초과!' : '미달');
-    addComparisonRow('기억력 천재', '10단계+', level >= 10 ? '달성!' : '미달');
+    const achieved = window.i18n.getText('resultAchieved');
+    const exceeded = window.i18n.getText('resultExceeded');
+    const notReached = window.i18n.getText('resultNotReached');
+    const su = window.i18n.getText('stageUnit');
+    addComparisonRow(window.i18n.getText('beginner'), '3-5' + su, level >= 3 && level <= 5 ? achieved : level > 5 ? exceeded : notReached);
+    addComparisonRow(window.i18n.getText('expert'), '6-9' + su, level >= 6 && level <= 9 ? achieved : level > 9 ? exceeded : notReached);
+    addComparisonRow(window.i18n.getText('memoryGenius'), '10' + su + '+', level >= 10 ? achieved : notReached);
     
     // 공유 버튼 설정
     setupShareButtons(level);
@@ -406,8 +413,10 @@ document.addEventListener('DOMContentLoaded', function() {
   // 비교 행 추가
   function addComparisonRow(label, range, status) {
     const row = document.createElement('tr');
-    const statusClass = status.includes('달성') ? 'text-green-500' : 
-                       status.includes('초과') ? 'text-blue-500' : 'text-gray-500';
+    const achievedText = window.i18n.getText('resultAchieved');
+    const exceededText = window.i18n.getText('resultExceeded');
+    const statusClass = status === achievedText ? 'text-green-500' :
+                       status === exceededText ? 'text-blue-500' : 'text-gray-500';
     
     row.innerHTML = `
       <td class="py-2 px-4 border-b border-gray-200">${label}</td>
@@ -419,26 +428,26 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // 공유 버튼 설정
   function setupShareButtons(level) {
-    const shareText = `내 순차 기억력 테스트 결과: ${level}단계! 당신의 기억력은 어떤가요? #순차기억력테스트 #기억력게임`;
+    const shareText = window.i18n.getText('patternShareText').replace('{level}', level);
     const shareUrl = window.location.href;
-    
+
     let resultMessage = '';
     let resultImage = '';
-    
+
     if (level >= 10) {
-      resultMessage = `🧠 기억력 천재! ${level}단계까지 도달했습니다!`;
-      resultImage = 'https://via.placeholder.com/800x400/FFD700/000000?text=기억력천재!';
+      resultMessage = window.i18n.getText('patternResultGenius').replace('{level}', level);
+      resultImage = 'https://via.placeholder.com/800x400/FFD700/000000?text=' + encodeURIComponent(window.i18n.getText('memoryGenius') + '!');
     } else if (level >= 6) {
-      resultMessage = `🔥 고수 수준! ${level}단계까지 기억했습니다!`;
-      resultImage = 'https://via.placeholder.com/800x400/FF6347/000000?text=고수!';
+      resultMessage = window.i18n.getText('patternResultExpert').replace('{level}', level);
+      resultImage = 'https://via.placeholder.com/800x400/FF6347/000000?text=' + encodeURIComponent(window.i18n.getText('expert') + '!');
     } else if (level >= 3) {
-      resultMessage = `⭐ 초급자 수준! ${level}단계까지 도전했습니다!`;
-      resultImage = 'https://via.placeholder.com/800x400/FFD700/000000?text=초급자!';
+      resultMessage = window.i18n.getText('patternResultBeginner').replace('{level}', level);
+      resultImage = 'https://via.placeholder.com/800x400/FFD700/000000?text=' + encodeURIComponent(window.i18n.getText('beginner') + '!');
     } else {
-      resultMessage = `💪 ${level}단계까지... 더 연습하면 향상될 거예요!`;
-      resultImage = 'https://via.placeholder.com/800x400/808080/000000?text=연습필요!';
+      resultMessage = window.i18n.getText('patternResultPractice').replace('{level}', level);
+      resultImage = 'https://via.placeholder.com/800x400/808080/000000?text=' + encodeURIComponent(window.i18n.getText('stageUnit') + level);
     }
-    
+
     // 카카오톡 공유
     if (kakaoShare) {
       kakaoShare.addEventListener('click', function() {
@@ -446,7 +455,7 @@ document.addEventListener('DOMContentLoaded', function() {
           Kakao.Share.sendDefault({
             objectType: 'feed',
             content: {
-              title: '🧠 순차 기억력 테스트 결과',
+              title: window.i18n.getText('patternKakaoTitle'),
               description: resultMessage,
               imageUrl: resultImage,
               link: {
@@ -456,7 +465,7 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             buttons: [
               {
-                title: '나도 테스트하기',
+                title: window.i18n.getText('patternKakaoButton'),
                 link: {
                   mobileWebUrl: shareUrl,
                   webUrl: shareUrl,
@@ -465,29 +474,29 @@ document.addEventListener('DOMContentLoaded', function() {
             ],
           });
         } else {
-          const fallbackText = `${resultMessage}\n\n당신의 기억력은 어떤가요?\n테스트 해보세요: ${shareUrl}`;
-          
+          const fallbackText = window.i18n.getText('patternKakaoFallback').replace('{result}', resultMessage).replace('{url}', shareUrl);
+
           if (navigator.share) {
             navigator.share({
-              title: '🧠 순차 기억력 테스트 결과',
+              title: window.i18n.getText('patternKakaoTitle'),
               text: fallbackText,
               url: shareUrl
-            }).catch(err => console.log('공유 실패:', err));
+            }).catch(err => console.log('Share failed:', err));
           } else {
             navigator.clipboard.writeText(fallbackText).then(function() {
-              copySuccessMessage.textContent = '카카오톡 공유 텍스트가 복사되었습니다!';
+              copySuccessMessage.textContent = window.i18n.getText('kakaoShareCopied');
               copySuccessMessage.classList.remove('hidden');
               setTimeout(() => {
                 copySuccessMessage.classList.add('hidden');
               }, 3000);
             }).catch(function() {
-              alert('공유할 텍스트:\n' + fallbackText);
+              alert(window.i18n.getText('shareTextAlert') + '\n' + fallbackText);
             });
           }
         }
       });
     }
-    
+
     // 페이스북 공유
     if (facebookShare) {
       facebookShare.addEventListener('click', function() {
@@ -495,29 +504,29 @@ document.addEventListener('DOMContentLoaded', function() {
         window.open(url, '_blank');
       });
     }
-    
+
     // 인스타그램 공유
     if (instagramShare) {
       instagramShare.addEventListener('click', function() {
-        const instagramText = `내 순차 기억력 테스트 결과: ${level}단계!\n\n당신의 기억력은 어떤가요? 🧠\n\n#순차기억력테스트 #기억력게임 #메모리챌린지 #두뇌훈련`;
-        
+        const instagramText = window.i18n.getText('patternInstagramText').replace('{level}', level);
+
         navigator.clipboard.writeText(instagramText).then(function() {
-          copySuccessMessage.textContent = '인스타그램 공유 텍스트가 복사되었습니다!';
+          copySuccessMessage.textContent = window.i18n.getText('instagramShareCopied');
           copySuccessMessage.classList.remove('hidden');
           setTimeout(() => {
             copySuccessMessage.classList.add('hidden');
           }, 3000);
         }).catch(function() {
-          alert('텍스트 복사에 실패했습니다. 수동으로 복사해주세요:\n\n' + instagramText);
+          alert(window.i18n.getText('copyFailed') + '\n\n' + instagramText);
         });
       });
     }
-    
+
     // 링크 복사
     if (linkCopy) {
       linkCopy.addEventListener('click', function() {
         navigator.clipboard.writeText(shareUrl).then(function() {
-          copySuccessMessage.textContent = '링크가 복사되었습니다!';
+          copySuccessMessage.textContent = window.i18n.getText('linkCopied');
           copySuccessMessage.classList.remove('hidden');
           setTimeout(() => {
             copySuccessMessage.classList.add('hidden');
@@ -541,7 +550,7 @@ document.addEventListener('DOMContentLoaded', function() {
       levelResults: [],
       bestRecord: parseInt(localStorage.getItem('memoryGameBest')) || 0
     };
-    gameActionBtn.textContent = '게임 시작';
+    gameActionBtn.textContent = window.i18n.getText('gameStart');
     gameActionBtn.disabled = false;
   }
 

@@ -73,14 +73,14 @@ document.addEventListener('DOMContentLoaded', function() {
     gameProgress.textContent = `1/${gameState.maxAttempts}`;
     progressBar.style.width = '20%';
     currentScore.textContent = '0ms';
-    gameActionBtn.textContent = '시작';
+    gameActionBtn.textContent = window.i18n.getText('start');
     gameActionBtn.disabled = false;
-    
+
     // 색상 테스트 UI 설정
     const colorTest = document.createElement('div');
     colorTest.className = 'color-test';
     colorTest.style.backgroundColor = '#F44336';
-    colorTest.innerHTML = '시작 버튼을 누르면<br>테스트가 시작됩니다.';
+    colorTest.innerHTML = window.i18n.getText('pressStartToBegin').replace('\n', '<br>');
     gameContainer.innerHTML = '';
     gameContainer.appendChild(colorTest);
   }
@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', function() {
     gameState.currentAttempt = 0;
     gameState.results = [];
     
-    gameActionBtn.textContent = '테스트 중...';
+    gameActionBtn.textContent = window.i18n.getText('testing');
     gameActionBtn.disabled = true;
     
     startColorTest();
@@ -101,8 +101,8 @@ document.addEventListener('DOMContentLoaded', function() {
   function startColorTest() {
     const colorTest = gameContainer.querySelector('.color-test');
     colorTest.style.backgroundColor = '#F44336'; // 빨간색
-    colorTest.textContent = '색상이 초록색으로 변하면 클릭하세요!';
-    
+    colorTest.textContent = window.i18n.getText('waitForColor');
+
     let timeoutDelay = Math.random() * 3000 + 1000; // 1-4초 랜덤 딜레이
     
     colorTest.onclick = function() {
@@ -117,7 +117,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (gameState.currentAttempt < gameState.maxAttempts) {
           colorTest.style.backgroundColor = '#F44336'; // 다시 빨간색
-          colorTest.textContent = '색상이 초록색으로 변하면 클릭하세요!';
+          colorTest.textContent = window.i18n.getText('waitForColor');
           timeoutDelay = Math.random() * 3000 + 1000;
           setTimeout(changeToGreen, timeoutDelay);
         } else {
@@ -126,10 +126,10 @@ document.addEventListener('DOMContentLoaded', function() {
       } else {
         // 너무 일찍 클릭했을 때
         colorTest.style.backgroundColor = '#FF9800'; // 주황색
-        colorTest.textContent = '너무 일찍 클릭했습니다! 잠시 후 다시 시작합니다.';
+        colorTest.textContent = window.i18n.getText('tooEarlyClick');
         setTimeout(() => {
           colorTest.style.backgroundColor = '#F44336';
-          colorTest.textContent = '색상이 초록색으로 변하면 클릭하세요!';
+          colorTest.textContent = window.i18n.getText('waitForColor');
           timeoutDelay = Math.random() * 3000 + 1000;
           setTimeout(changeToGreen, timeoutDelay);
         }, 1500);
@@ -139,7 +139,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function changeToGreen() {
       if (gameState.testActive) {
         colorTest.style.backgroundColor = '#4CAF50'; // 초록색
-        colorTest.textContent = '지금 클릭하세요!';
+        colorTest.textContent = window.i18n.getText('clickNow');
         gameState.clickTime = Date.now();
       }
     }
@@ -156,8 +156,8 @@ document.addEventListener('DOMContentLoaded', function() {
     colorTest.style.backgroundColor = '#4CAF50';
     colorTest.innerHTML = `<div class="text-center">
       <i class="fas fa-check-circle text-4xl mb-2"></i><br>
-      테스트 완료!<br>
-      <small>잠시 후 결과를 확인할 수 있습니다.</small>
+      ${window.i18n.getText('testComplete')}<br>
+      <small>${window.i18n.getText('resultSoon')}</small>
     </div>`;
     
     setTimeout(() => {
@@ -189,16 +189,16 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 결과 설명 및 아이콘 설정
     if (averageScore < 160) {
-      resultDescription.innerHTML = `당신의 평균 반응 속도는 <span class="font-bold text-indigo-600">${averageScore}ms</span>로, 프로게이머급 반응 속도를 가지고 있습니다! 🏆`;
+      resultDescription.innerHTML = `${window.i18n.getText('reactionResultDesc')} <span class="font-bold text-indigo-600">${averageScore}ms</span>${window.i18n.getText('reactionResultUnit')} ${window.i18n.getText('excellent')} 🏆`;
       resultIcon.className = 'fas fa-trophy text-5xl text-amber-500 mb-2';
     } else if (averageScore < 200) {
-      resultDescription.innerHTML = `당신의 평균 반응 속도는 <span class="font-bold text-indigo-600">${averageScore}ms</span>로, 매우 우수한 반응 속도입니다! 🥇`;
+      resultDescription.innerHTML = `${window.i18n.getText('reactionResultDesc')} <span class="font-bold text-indigo-600">${averageScore}ms</span>${window.i18n.getText('reactionResultUnit')} ${window.i18n.getText('excellent')} 🥇`;
       resultIcon.className = 'fas fa-medal text-5xl text-indigo-500 mb-2';
     } else if (averageScore < 250) {
-      resultDescription.innerHTML = `당신의 평균 반응 속도는 <span class="font-bold text-indigo-600">${averageScore}ms</span>로, 일반인 평균 수준입니다. 👍`;
+      resultDescription.innerHTML = `${window.i18n.getText('reactionResultDesc')} <span class="font-bold text-indigo-600">${averageScore}ms</span>${window.i18n.getText('reactionResultUnit')} ${window.i18n.getText('good')} 👍`;
       resultIcon.className = 'fas fa-user text-5xl text-blue-500 mb-2';
     } else {
-      resultDescription.innerHTML = `당신의 평균 반응 속도는 <span class="font-bold text-indigo-600">${averageScore}ms</span>로, 더 연습하면 향상될 수 있습니다! 💪`;
+      resultDescription.innerHTML = `${window.i18n.getText('reactionResultDesc')} <span class="font-bold text-indigo-600">${averageScore}ms</span>${window.i18n.getText('reactionResultUnit')} ${window.i18n.getText('tryAgainMsg')} 💪`;
       resultIcon.className = 'fas fa-hourglass-half text-5xl text-gray-500 mb-2';
     }
     
@@ -208,7 +208,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const resultItem = document.createElement('div');
       resultItem.className = 'flex justify-between items-center p-2 border-b border-gray-200';
       resultItem.innerHTML = `
-        <span>시도 ${index + 1}</span>
+        <span>${window.i18n.getText('reactionAttempt')} ${index + 1}</span>
         <span class="font-semibold">${result}ms</span>
       `;
       gameResults.appendChild(resultItem);
@@ -216,9 +216,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 비교 테이블 생성
     comparisonTable.innerHTML = '';
-    addComparisonRow('프로게이머', referenceData.proGamer.avg, averageScore - referenceData.proGamer.avg);
-    addComparisonRow('일반인', referenceData.average.avg, averageScore - referenceData.average.avg);
-    addComparisonRow('인간 한계', referenceData.limit.avg, averageScore - referenceData.limit.avg);
+    addComparisonRow(window.i18n.getText('proGamer'), referenceData.proGamer.avg, averageScore - referenceData.proGamer.avg);
+    addComparisonRow(window.i18n.getText('normalUser'), referenceData.average.avg, averageScore - referenceData.average.avg);
+    addComparisonRow(window.i18n.getText('humanLimit'), referenceData.limit.avg, averageScore - referenceData.limit.avg);
     
     // 공유 버튼 설정
     setupShareButtons(averageScore);
@@ -249,7 +249,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // 공유 버튼 설정 함수
   function setupShareButtons(score) {
     // 공유 텍스트 생성
-    const shareText = `내 반응속도 테스트 결과: ${score}ms! 당신은 어떤가요? #반응속도테스트 #프로게이머테스트`;
+    const shareText = window.i18n.getText('reactionShareText').replace('{score}', score);
     const shareUrl = window.location.href;
     
     // 결과에 따른 메시지와 이미지 설정
@@ -257,17 +257,17 @@ document.addEventListener('DOMContentLoaded', function() {
     let resultImage = '';
     
     if (score < 160) {
-      resultMessage = `🏆 프로게이머급 반응속도! ${score}ms로 놀라운 결과를 기록했습니다!`;
-      resultImage = 'https://via.placeholder.com/800x400/FFD700/000000?text=프로게이머급!';
+      resultMessage = window.i18n.getText('reactionResultPro').replace('{score}', score);
+      resultImage = 'https://via.placeholder.com/800x400/FFD700/000000?text=Pro!';
     } else if (score < 200) {
-      resultMessage = `🥇 우수한 반응속도! ${score}ms로 일반인보다 빠른 반응속도를 보여줬습니다!`;
-      resultImage = 'https://via.placeholder.com/800x400/C0C0C0/000000?text=우수함!';
+      resultMessage = window.i18n.getText('reactionResultExcellent').replace('{score}', score);
+      resultImage = 'https://via.placeholder.com/800x400/C0C0C0/000000?text=Excellent!';
     } else if (score < 250) {
-      resultMessage = `👍 평균적인 반응속도! ${score}ms로 일반인 수준의 반응속도입니다.`;
-      resultImage = 'https://via.placeholder.com/800x400/CD7F32/000000?text=평균!';
+      resultMessage = window.i18n.getText('reactionResultAverage').replace('{score}', score);
+      resultImage = 'https://via.placeholder.com/800x400/CD7F32/000000?text=Average!';
     } else {
-      resultMessage = `💪 연습이 필요해요! ${score}ms... 더 연습하면 향상될 수 있어요!`;
-      resultImage = 'https://via.placeholder.com/800x400/808080/000000?text=연습필요!';
+      resultMessage = window.i18n.getText('reactionResultNeedsPractice').replace('{score}', score);
+      resultImage = 'https://via.placeholder.com/800x400/808080/000000?text=Practice!';
     }
     
     // 카카오톡 공유
@@ -277,7 +277,7 @@ document.addEventListener('DOMContentLoaded', function() {
           Kakao.Share.sendDefault({
             objectType: 'feed',
             content: {
-              title: '⚡ 반응속도 테스트 결과',
+              title: window.i18n.getText('reactionKakaoTitle'),
               description: resultMessage,
               imageUrl: resultImage,
               link: {
@@ -286,21 +286,21 @@ document.addEventListener('DOMContentLoaded', function() {
               },
             },
             itemContent: {
-              profileText: '반응속도 테스트',
+              profileText: window.i18n.getText('reactionKakaoProfileText'),
               profileImageUrl: resultImage,
               titleImageUrl: resultImage,
-              titleImageText: `${score}ms 반응속도`,
-              titleImageCategory: '테스트 결과',
+              titleImageText: window.i18n.getText('reactionKakaoTitleImageText').replace('{score}', score),
+              titleImageCategory: window.i18n.getText('reactionKakaoTitleImageCategory'),
               items: gameState.results.map((result, index) => ({
-                item: `시도 ${index + 1}`,
+                item: `${window.i18n.getText('reactionAttempt')} ${index + 1}`,
                 itemOp: `${result}ms`,
               })),
-              sum: '평균 반응속도',
+              sum: window.i18n.getText('reactionKakaoAvgSpeed'),
               sumOp: `${score}ms`,
             },
             buttons: [
               {
-                title: '나도 테스트하기',
+                title: window.i18n.getText('reactionKakaoButton'),
                 link: {
                   mobileWebUrl: shareUrl,
                   webUrl: shareUrl,
@@ -310,23 +310,23 @@ document.addEventListener('DOMContentLoaded', function() {
           });
         } else {
           // 카카오 SDK가 초기화되지 않았을 때 대체 동작
-          const fallbackText = `${resultMessage}\n\n당신의 반응속도는 어떤가요?\n테스트 해보세요: ${shareUrl}`;
+          const fallbackText = window.i18n.getText('reactionKakaoFallback').replace('{resultMessage}', resultMessage).replace('{url}', shareUrl);
           
           if (navigator.share) {
             navigator.share({
-              title: '⚡ 반응속도 테스트 결과',
+              title: window.i18n.getText('reactionKakaoTitle'),
               text: fallbackText,
               url: shareUrl
-            }).catch(err => console.log('공유 실패:', err));
+            }).catch(err => console.log('Share failed:', err));
           } else {
             navigator.clipboard.writeText(fallbackText).then(function() {
-              copySuccessMessage.textContent = '카카오톡 공유 텍스트가 복사되었습니다!';
+              copySuccessMessage.textContent = window.i18n.getText('kakaoShareCopied');
               copySuccessMessage.classList.remove('hidden');
               setTimeout(() => {
                 copySuccessMessage.classList.add('hidden');
               }, 3000);
             }).catch(function() {
-              alert('공유할 텍스트:\n' + fallbackText);
+              alert(window.i18n.getText('shareTextAlert') + '\n' + fallbackText);
             });
           }
         }
@@ -344,16 +344,16 @@ document.addEventListener('DOMContentLoaded', function() {
     // 인스타그램 공유
     if (instagramShare) {
       instagramShare.addEventListener('click', function() {
-        const instagramText = `내 반응속도 테스트 결과: ${score}ms!\n\n당신의 반응속도는 어떤가요? 🎯\n\n#반응속도테스트 #프로게이머테스트 #게임 #반응속도 #도전`;
+        const instagramText = window.i18n.getText('reactionInstagramText').replace('{score}', score);
         
         navigator.clipboard.writeText(instagramText).then(function() {
-          copySuccessMessage.textContent = '인스타그램 공유 텍스트가 복사되었습니다!';
+          copySuccessMessage.textContent = window.i18n.getText('instagramShareCopied');
           copySuccessMessage.classList.remove('hidden');
           setTimeout(() => {
             copySuccessMessage.classList.add('hidden');
           }, 3000);
         }).catch(function() {
-          alert('텍스트 복사에 실패했습니다. 수동으로 복사해주세요:\n\n' + instagramText);
+          alert(window.i18n.getText('copyFailed') + '\n\n' + instagramText);
         });
       });
     }
@@ -362,7 +362,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (linkCopy) {
       linkCopy.addEventListener('click', function() {
         navigator.clipboard.writeText(shareUrl).then(function() {
-          copySuccessMessage.textContent = '링크가 복사되었습니다!';
+          copySuccessMessage.textContent = window.i18n.getText('linkCopied');
           copySuccessMessage.classList.remove('hidden');
           setTimeout(() => {
             copySuccessMessage.classList.add('hidden');
@@ -382,7 +382,7 @@ document.addEventListener('DOMContentLoaded', function() {
       results: [],
       totalScore: 0
     };
-    gameActionBtn.textContent = '시작';
+    gameActionBtn.textContent = window.i18n.getText('start');
     gameActionBtn.disabled = false;
   }
 }); 

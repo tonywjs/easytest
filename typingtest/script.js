@@ -72,7 +72,7 @@ class TypingTest {
         // 초기 상태에서 입력 필드 완전 초기화
         this.typingInputEl.disabled = false;
         this.typingInputEl.value = ""; // 실제 값은 비워둠
-        this.typingInputEl.placeholder = "타이핑을 시작하면 자동으로 테스트가 시작됩니다...";
+        this.typingInputEl.placeholder = window.i18n.getText('typingPlaceholder');
         
         // 텍스트 표시 (입력값이 없으므로 색상 없이 표시됨)
         this.displayText();
@@ -96,7 +96,7 @@ class TypingTest {
 
     showCustomTextSuccess() {
         const originalText = this.applyCustomTextBtn.textContent;
-        this.applyCustomTextBtn.textContent = '적용 완료!';
+        this.applyCustomTextBtn.textContent = window.i18n.getText('textApplied');
         this.applyCustomTextBtn.style.background = '#28a745';
         
         setTimeout(() => {
@@ -164,11 +164,11 @@ class TypingTest {
             this.typingInputEl.value = '';
         }
         this.typingInputEl.disabled = false;
-        this.typingInputEl.placeholder = "위 문장을 정확히 타이핑하세요...";
+        this.typingInputEl.placeholder = window.i18n.getText('typingReadyPlaceholder');
         this.typingInputEl.focus();
         
         this.startBtn.disabled = true;
-        this.startBtn.textContent = '테스트 진행 중...';
+        this.startBtn.textContent = window.i18n.getText('testInProgress');
         this.resultContainer.style.display = 'none';
         this.shareButtons.style.display = 'none';
         
@@ -189,12 +189,12 @@ class TypingTest {
         // 입력 필드 완전 초기화
         this.typingInputEl.value = '';
         this.typingInputEl.disabled = false;
-        this.typingInputEl.placeholder = "타이핑을 시작하면 자동으로 테스트가 시작됩니다...";
+        this.typingInputEl.placeholder = window.i18n.getText('typingPlaceholder');
         this.typingInputEl.focus(); // 포커스 제거하여 placeholder 표시
         this.typingInputEl.blur();
         
         this.startBtn.disabled = false;
-        this.startBtn.textContent = '테스트 시작';
+        this.startBtn.textContent = window.i18n.getText('startTest');
         this.startBtn.style.display = 'inline-block';
         this.resultContainer.style.display = 'none';
         this.shareButtons.style.display = 'none';
@@ -310,7 +310,7 @@ class TypingTest {
         // 결과 표시
         this.finalWpmEl.textContent = `${finalWpm} WPM`;
         this.finalAccuracyEl.textContent = `${finalAccuracy}%`;
-        this.finalTimeEl.textContent = `${elapsed.toFixed(1)}초`;
+        this.finalTimeEl.textContent = `${elapsed.toFixed(1)}${window.i18n.getText('secondsUnit')}`;
         
         this.resultContainer.style.display = 'block';
         this.shareButtons.style.display = 'flex';
@@ -320,18 +320,18 @@ class TypingTest {
     }
     
     showCompletionMessage(wpm, accuracy) {
-        let message = "🎉 테스트 완료!";
-        
+        let message = window.i18n.getText('typingCompleteDefault');
+
         if (wpm >= 200 && accuracy >= 95) {
-            message = "🚀 정말 빠르시네요!";
+            message = window.i18n.getText('typingCompleteFast');
         } else if (wpm >= 140 && accuracy >= 90) {
-            message = "👏 정말 평번한 실력이네요!";
+            message = window.i18n.getText('typingCompleteAverage');
         } else if (wpm >= 100 && accuracy >= 85) {
-            message = "🐢 빠른 거북이 정도시군요!";
+            message = window.i18n.getText('typingCompleteSlow');
         } else {
-            message = "😞 정말 형편없군요!";
+            message = window.i18n.getText('typingCompletePoor');
         }
-        
+
         this.resultContainer.querySelector('h2').textContent = message;
     }
     
@@ -347,11 +347,11 @@ class TypingTest {
         
         // 성능에 따른 등급 결정
         const getGrade = () => {
-            if (wpmNumber >= 200 && accuracyNumber >= 95) return '🏆 마스터';
-            if (wpmNumber >= 140 && accuracyNumber >= 90) return '🥇 고수';
-            if (wpmNumber >= 100 && accuracyNumber >= 85) return '🥈 숙련자';
-            if (wpmNumber >= 60 && accuracyNumber >= 75) return '🥉 초보자';
-            return '🔰 연습생';
+            if (wpmNumber >= 200 && accuracyNumber >= 95) return window.i18n.getText('typingGradeMaster');
+            if (wpmNumber >= 140 && accuracyNumber >= 90) return window.i18n.getText('typingGradeExpert');
+            if (wpmNumber >= 100 && accuracyNumber >= 85) return window.i18n.getText('typingGradeSkilled');
+            if (wpmNumber >= 60 && accuracyNumber >= 75) return window.i18n.getText('typingGradeBeginner');
+            return window.i18n.getText('typingGradeTrainee');
         };
 
         // 타이핑 테스트 이미지 생성 (SVG -> base64)
@@ -359,24 +359,24 @@ class TypingTest {
             const svg = `<svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <rect width="500" height="500" fill="#F8F9FA"/>
                 <rect x="50" y="80" width="400" height="60" rx="10" fill="#4285F4"/>
-                <text x="250" y="115" font-size="28" fill="white" text-anchor="middle" font-weight="bold">⌨️ 타이핑 속도 테스트</text>
+                <text x="250" y="115" font-size="28" fill="white" text-anchor="middle" font-weight="bold">${window.i18n.getText('typingSpeedTestTitle')}</text>
                 
                 <circle cx="150" cy="220" r="60" fill="#34A853" stroke="#137333" stroke-width="4"/>
                 <text x="150" y="235" font-size="32" fill="white" text-anchor="middle" font-weight="bold">${wpmNumber}</text>
-                <text x="150" y="280" font-size="16" fill="#137333" text-anchor="middle">타자/분</text>
+                <text x="150" y="280" font-size="16" fill="#137333" text-anchor="middle">${window.i18n.getText('typingCharsPerMin')}</text>
                 
                 <circle cx="250" cy="220" r="60" fill="#FBBC04" stroke="#F9AB00" stroke-width="4"/>
                 <text x="250" y="235" font-size="28" fill="#8B4513" text-anchor="middle" font-weight="bold">${accuracyNumber}%</text>
-                <text x="250" y="280" font-size="16" fill="#8B4513" text-anchor="middle">정확도</text>
+                <text x="250" y="280" font-size="16" fill="#8B4513" text-anchor="middle">${window.i18n.getText('typingAccuracyItem')}</text>
                 
                 <circle cx="350" cy="220" r="60" fill="#EA4335" stroke="#D33B01" stroke-width="4"/>
                 <text x="350" y="235" font-size="24" fill="white" text-anchor="middle" font-weight="bold">${timeNumber}s</text>
-                <text x="350" y="280" font-size="16" fill="#D33B01" text-anchor="middle">소요시간</text>
+                <text x="350" y="280" font-size="16" fill="#D33B01" text-anchor="middle">${window.i18n.getText('typingElapsedTime')}</text>
                 
                 <text x="250" y="340" font-size="36" fill="#202124" text-anchor="middle" font-weight="bold">${getGrade()}</text>
-                <text x="250" y="380" font-size="20" fill="#5F6368" text-anchor="middle">당신의 타이핑 실력</text>
+                <text x="250" y="380" font-size="20" fill="#5F6368" text-anchor="middle">${window.i18n.getText('typingYourSkill')}</text>
                 
-                <text x="250" y="430" font-size="18" fill="#8B9DC3" text-anchor="middle">🚀 나도 도전해보자!</text>
+                <text x="250" y="430" font-size="18" fill="#8B9DC3" text-anchor="middle">${window.i18n.getText('typingChallengeText')}</text>
             </svg>`;
             return btoa(unescape(encodeURIComponent(svg)));
         };
@@ -388,8 +388,8 @@ class TypingTest {
             Kakao.Share.sendDefault({
                 objectType: 'feed',
                 content: {
-                    title: '⌨️ 타이핑 속도 테스트 결과!',
-                    description: `${wpmNumber} WPM으로 ${getGrade()} 등급을 달성했어요!`,
+                    title: window.i18n.getText('typingShareTitle'),
+                    description: window.i18n.getText('typingShareDesc').replace('{wpm}', wpmNumber).replace('{grade}', getGrade()),
                     imageUrl: `data:image/svg+xml;base64,${createTypingImage()}`,
                     link: {
                         mobileWebUrl: gameUrl,
@@ -398,30 +398,30 @@ class TypingTest {
                     },
                 },
                 itemContent: {
-                    profileText: '타이핑 테스트',
+                    profileText: window.i18n.getText('typingProfileText'),
                     profileImageUrl: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMjAiIGZpbGw9IiM0Mjg1RjQiLz4KPHR4dCB4PSIyMCIgeT0iMjgiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj7ijKg8L3RleHQ+Cjwvc3ZnPgo=',
                     titleImageUrl: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMjAiIGZpbGw9IiM0Mjg1RjQiLz4KPHR4dCB4PSIyMCIgeT0iMjgiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj7ijKg8L3RleHQ+Cjwvc3ZnPgo=',
-                    titleImageText: '🏆 테스트 결과',
+                    titleImageText: window.i18n.getText('typingResultTitle'),
                     
                     items: [
                         {
-                            item: '📝 문자 수',
-                            itemOp: `${this.currentText.length}자`,
+                            item: window.i18n.getText('typingCharCount'),
+                            itemOp: window.i18n.getText('typingCharUnit').replace('{count}', this.currentText.length),
                         },
                         {
-                            item: '🎯 정확도',
+                            item: window.i18n.getText('typingAccuracyLabel'),
                             itemOp: `${accuracyNumber}%`,
                         },
                         {
-                            item: '⏱️ 소요 시간',
-                            itemOp: `${timeNumber}초`,
+                            item: window.i18n.getText('typingTimeLabel'),
+                            itemOp: window.i18n.getText('typingTimeUnit').replace('{time}', timeNumber),
                         },
                         {
-                            item: '📊 실력 등급',
+                            item: window.i18n.getText('typingGradeLabel'),
                             itemOp: getGrade(),
                         },
                     ],
-                    sum: '타이핑 속도',
+                    sum: window.i18n.getText('typingSpeedSum'),
                     sumOp: `${wpmNumber} WPM`,
                 },
                 social: {
@@ -431,14 +431,14 @@ class TypingTest {
                 },
                 buttons: [
                     {
-                        title: '⌨️ 나도 도전하기',
+                        title: window.i18n.getText('typingChallengeBtn'),
                         link: {
                             mobileWebUrl: challengeUrl,
                             webUrl: challengeUrl,
                         },
                     },
                     {
-                        title: '🏠 홈',
+                        title: window.i18n.getText('typingHomeBtn'),
                         link: {
                             mobileWebUrl: 'https://eeeasytest.com',
                             webUrl: 'https://eeeasytest.com',
@@ -448,7 +448,7 @@ class TypingTest {
             });
         } else {
             // 카카오 SDK가 로드되지 않은 경우 클립보드 복사
-            this.fallbackShare(`⌨️ 타이핑 속도 테스트 결과\n🏆 등급: ${getGrade()}\n⚡ 속도: ${wpm}\n🎯 정확도: ${accuracy}\n⏱️ 시간: ${time}\n\n나도 도전해보자! ${window.location.href}`, this.kakaoShareBtn);
+            this.fallbackShare(window.i18n.getText('typingFallbackShare').replace('{grade}', getGrade()).replace('{wpm}', wpm).replace('{accuracy}', accuracy).replace('{time}', time).replace('{url}', window.location.href), this.kakaoShareBtn);
         }
     }
     
@@ -457,7 +457,7 @@ class TypingTest {
         const accuracy = this.finalAccuracyEl.textContent;
         const time = this.finalTimeEl.textContent;
         
-        const shareText = `타이핑 속도 테스트 결과 - 속도: ${wpm}, 정확도: ${accuracy}, 시간: ${time}`;
+        const shareText = window.i18n.getText('typingShareText').replace('{wpm}', wpm).replace('{accuracy}', accuracy).replace('{time}', time);
         const shareUrl = encodeURIComponent(window.location.href);
         const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${shareUrl}&quote=${encodeURIComponent(shareText)}`;
         
@@ -468,7 +468,7 @@ class TypingTest {
     fallbackShare(text, button) {
         if (navigator.clipboard) {
             navigator.clipboard.writeText(text).then(() => {
-                this.showShareSuccess(button, '클립보드에 복사됨!');
+                this.showShareSuccess(button, window.i18n.getText('typingClipboardCopied'));
             }).catch(() => {
                 this.showShareFallback(text);
             });
@@ -485,9 +485,9 @@ class TypingTest {
         
         try {
             document.execCommand('copy');
-            alert('결과가 클립보드에 복사되었습니다!');
+            alert(window.i18n.getText('resultCopied'));
         } catch (err) {
-            prompt('아래 텍스트를 복사하세요:', text);
+            prompt(window.i18n.getText('copyPrompt'), text);
         }
         
         document.body.removeChild(textarea);

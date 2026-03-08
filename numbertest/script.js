@@ -397,11 +397,12 @@ function showVsFriendScreen() {
 
 // 친구와 대결하기 공유
 function shareVsBattle(platform) {
-    const message = `🎮 곶감게임 대결 도전장!\n` +
-                   `나와 함께 곶감게임에서 대결해보세요!\n` +
-                   `난이도: ${getDifficultyText(config.difficulty)}\n` +
-                   `🎯 도전 과제: 합이 10이 되는 곶감을 제거하여 높은 점수 달성!\n\n` +
-                   `🚀 도전 링크: ${config.battleLink}`;
+    // i18n: battleChallengeMessage - no dedicated key, composing from existing keys
+    const message = `🎮 ${window.i18n.getText('vsFriendTitle')}!\n` +
+                   `${window.i18n.getText('vsFriendDesc')}\n` +
+                   `${window.i18n.getText('selectedDifficulty')}: ${getDifficultyText(config.difficulty)}\n` +
+                   `🎯 ${window.i18n.getText('numberGameDesc')}\n\n` +
+                   `🚀 ${config.battleLink}`;
     
     switch(platform) {
         case 'kakao':
@@ -411,8 +412,8 @@ function shareVsBattle(platform) {
                     Kakao.Share.sendDefault({
                         objectType: 'feed',
                         content: {
-                            title: '🎮 곶감게임 대결 도전장!',
-                            description: `난이도 ${getDifficultyText(config.difficulty)}에서의 대결요청!\n도전하세요!`,
+                            title: `🎮 ${window.i18n.getText('vsFriendTitle')}!`,
+                            description: `${window.i18n.getText('selectedDifficulty')} ${getDifficultyText(config.difficulty)}`,
                             imageUrl: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCIgdmlld0JveD0iMCAwIDUwMCA1MDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI1MDAiIGhlaWdodD0iNTAwIiBmaWxsPSIjRkZGOERDIi8+Cjx0ZXh0IHg9IjI1MCIgeT0iODAiIGZvbnQtc2l6ZT0iNjAiIGZpbGw9IiM4QjQ1MTMiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJzZXJpZiI+8J+SqjwvdGV4dD4KPHRleHQgeD0iMjUwIiB5PSIxNDAiIGZvbnQtc2l6ZT0iNDgiIGZpbGw9IiM4QjQ1MTMiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJzZXJpZiI+64yA6rKQ64qE7J6FPC90ZXh0Pgo8Y2lyY2xlIGN4PSIxNTAiIGN5PSIyNTAiIHI9IjQwIiBmaWxsPSIjRkY2NjAwIiBzdHJva2U9IiNFMjUzMDAiIHN0cm9rZS13aWR0aD0iMyIvPgo8dGV4dCB4PSIxNTAiIHk9IjI2MCIgZm9udC1zaXplPSIzNiIgZmlsbD0iIzJEMTgxMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9ImJvbGQiPjU8L3RleHQ+CjxjaXJjbGUgY3g9IjI1MCIgY3k9IjI1MCIgcj0iNDAiIGZpbGw9IiNGRjY2MDAiIHN0cm9rZT0iI0UyNTMwMCIgc3Ryb2tlLXdpZHRoPSIzIi8+Cjx0ZXh0IHg9IjI1MCIgeT0iMjYwIiBmb250LXNpemU9IjM2IiBmaWxsPSIjMkQxODEwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXdlaWdodD0iYm9sZCI+MzwvdGV4dD4KPGNpcmNsZSBjeD0iMzUwIiBjeT0iMjUwIiByPSI0MCIgZmlsbD0iI0ZGNjYwMCIgc3Ryb2tlPSIjRTI1MzAwIiBzdHJva2Utd2lkdGg9IjMiLz4KPHR4dCB4PSIzNTAiIHk9IjI2MCIgZm9udC1zaXplPSIzNiIgZmlsbD0iIzJEMTgxMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9ImJvbGQiPjI8L3RleHQ+CjxwYXRoIGQ9Ik0xMzAgMzYwUTE1MCAzNDAgMTcwIDM2MEwyNTAgMzYwUTI3MCAzNDAgMjkwIDM2MEwzNzAgMzYwIiBzdHJva2U9IiNGRkQ3MDAiIHN0cm9rZS13aWR0aD0iNCIgZmlsbD0ibm9uZSIvPgo8dGV4dCB4PSIyNTAiIHk9IjQyMCIgZm9udC1zaXplPSIzMiIgZmlsbD0iIzhCNDUxMyIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9ImJvbGQiPvCfkorg64+E7KCE7ZWY7IS47JqUISDwn5KAIC==',
                             link: {
                                 mobileWebUrl: config.battleLink,
@@ -420,31 +421,31 @@ function shareVsBattle(platform) {
                             },
                         },
                         itemContent: {
-                            profileText: '곶감게임',
+                            profileText: window.i18n.getText('numberTest'),
                             profileImageUrl: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMjAiIGZpbGw9IiNGRjY2MDAiLz4KPHR4dCB4PSIyMCIgeT0iMjYiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXdlaWdodD0iYm9sZCI+5Li6PC90ZXh0Pgo8L3N2Zz4K',
                             titleImageUrl: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMjAiIGZpbGw9IiNGRjY2MDAiLz4KPHR4dCB4PSIyMCIgeT0iMjYiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXdlaWdodD0iYm9sZCI+5Li6PC90ZXh0Pgo8L3N2Zz4K',
-                            titleImageText: '🏆 대결 도전장',
+                            titleImageText: `🏆 ${window.i18n.getText('vsFriendTitle')}`,
                             items: [
                                 {
-                                    item: '🎯 도전 과제',
-                                    itemOp: '합이 10인 곶감 제거',
+                                    item: `🎯 ${window.i18n.getText('numberGameDesc')}`,
+                                    itemOp: window.i18n.getText('numberDesc'),
                                 },
                                 {
-                                    item: '⏰ 제한시간',
-                                    itemOp: config.difficultySettings[config.difficulty].time === 150 ? '2분 30초' :
-                                           config.difficultySettings[config.difficulty].time === 90 ? '1분 30초' : 
-                                           config.difficultySettings[config.difficulty].time === 60 ? '1분' : '30초',
+                                    item: `⏰ ${window.i18n.getText('timeSelect')}`,
+                                    itemOp: getTimeText(config.difficulty),
                                 },
                                 {
-                                    item: '🎮 대결 방식',
-                                    itemOp: '같은 게임판에서 경쟁',
+                                    // i18n: battleMethod, sameBoard - no dedicated keys
+                                    item: `🎮 ${window.i18n.getText('vsFriend')}`,
+                                    itemOp: window.i18n.getText('vsFriendDesc'),
                                 },
                                 {
-                                    item: '🏆 승리 조건',
-                                    itemOp: '더 높은 점수 달성',
+                                    // i18n: winCondition, higherScore - no dedicated keys
+                                    item: `🏆 ${window.i18n.getText('highScore')}`,
+                                    itemOp: window.i18n.getText('allTimeHigh'),
                                 },
                             ],
-                            sum: '도전 난이도',
+                            sum: window.i18n.getText('selectedDifficulty'),
                             sumOp: getDifficultyText(config.difficulty),
                         },
                         social: {
@@ -454,7 +455,8 @@ function shareVsBattle(platform) {
                         },
                         buttons: [
                             {
-                                title: '🚀 도전 수락하기',
+                                // i18n: acceptChallenge - no dedicated key
+                                title: `🚀 ${window.i18n.getText('startBattle')}`,
                                 link: {
                                     mobileWebUrl: config.battleLink,
                                     webUrl: config.battleLink,
@@ -468,7 +470,7 @@ function shareVsBattle(platform) {
                     // 카카오톡 공유 실패 시 기본 공유 기능으로 대체
                     if (navigator.share) {
                         navigator.share({
-                            title: '곶감게임 대결 도전장',
+                            title: window.i18n.getText('vsFriendTitle'),
                             text: message
                         }).catch(err => {
                             copyToClipboard(message);
@@ -482,7 +484,7 @@ function shareVsBattle(platform) {
                 console.log('Kakao SDK를 찾을 수 없습니다. 기본 공유 기능을 사용합니다.');
                 if (navigator.share) {
                     navigator.share({
-                        title: '곶감게임 대결 도전장',
+                        title: window.i18n.getText('vsFriendTitle'),
                         text: message
                     }).catch(err => {
                         copyToClipboard(message);
@@ -495,14 +497,14 @@ function shareVsBattle(platform) {
         case 'facebook':
             // 페이스북 공유 기능 구현 - 더 상세한 정보와 함께
             try {
-                const battleTitle = encodeURIComponent('🎮 곶감게임 대결 도전장!');
+                const battleTitle = encodeURIComponent(`🎮 ${window.i18n.getText('vsFriendTitle')}!`);
                 const battleDescription = encodeURIComponent(
-                    `친구가 곶감게임에서 대결 도전장을 보냈습니다!\n\n` +
-                    `🎯 도전 과제: 합이 10이 되는 곶감을 제거하여 높은 점수 달성\n` +
-                    `⚙️ 난이도: ${getDifficultyText(config.difficulty)}\n` +
-                    `⏰ 제한시간: ${getTimeText(config.difficulty)}\n` +
-                    `🎮 대결 방식: 같은 게임판에서 경쟁\n\n` +
-                    `지금 바로 도전해보세요!`
+                    `${window.i18n.getText('vsFriendDesc')}\n\n` +
+                    `🎯 ${window.i18n.getText('numberGameDesc')}\n` +
+                    `⚙️ ${window.i18n.getText('selectedDifficulty')}: ${getDifficultyText(config.difficulty)}\n` +
+                    `⏰ ${window.i18n.getText('timeSelect')} ${getTimeText(config.difficulty)}\n` +
+                    `🎮 ${window.i18n.getText('vsFriend')}\n\n` +
+                    `${window.i18n.getText('startBattle')}!`
                 );
                 const battleUrl = encodeURIComponent(config.battleLink);
                 
@@ -510,7 +512,7 @@ function shareVsBattle(platform) {
                 const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?` +
                     `u=${battleUrl}&` +
                     `quote=${battleDescription}&` +
-                    `hashtag=${encodeURIComponent('#곶감게임')}`;
+                    `hashtag=${encodeURIComponent('#' + window.i18n.getText('numberTest'))}`;
                 
                 // 새 창으로 페이스북 공유 페이지 열기
                 const shareWindow = window.open(
@@ -521,14 +523,16 @@ function shareVsBattle(platform) {
                 
                 // 공유 창이 열렸는지 확인
                 if (!shareWindow) {
-                    throw new Error('팝업이 차단되었거나 공유 창을 열 수 없습니다.');
+                    // i18n: popupBlocked - no dedicated key
+                    throw new Error('Popup blocked');
                 }
                 
                 console.log('페이스북 대결 도전장 공유 완료');
                 
                 // 공유 완료 알림
                 setTimeout(() => {
-                    showCopySuccess('📘 페이스북으로 대결 도전장이 공유되었습니다!\n친구들이 도전을 수락하기를 기다려보세요!');
+                    // i18n: facebookBattleShared - no dedicated key
+                    showCopySuccess(`📘 ${window.i18n.getText('facebookShare')}!`);
                 }, 1000);
                 
             } catch (error) {
@@ -541,15 +545,16 @@ function shareVsBattle(platform) {
                 if (!fallbackWindow) {
                     // 팝업이 차단된 경우 클립보드에 복사
                     copyToClipboard(message);
-                    showCopySuccess('📘 페이스북 공유 창을 열 수 없어서 대결 링크를 클립보드에 복사했습니다!\n페이스북에 직접 붙여넣어 친구들과 공유해보세요!');
+                    // i18n: facebookFallbackCopied - no dedicated key
+                    showCopySuccess(`📘 ${window.i18n.getText('linkCopied')}`);
                 } else {
-                    showCopySuccess('📘 페이스북으로 대결 도전장이 공유되었습니다!');
+                    showCopySuccess(`📘 ${window.i18n.getText('facebookShare')}!`);
                 }
             }
             break;
         case 'link':
             copyToClipboard(config.battleLink);
-            showCopySuccess('🔗 대결 도전 링크가 클립보드에 복사되었습니다!\n친구에게 링크를 보내서 도전하게 해보세요!');
+            showCopySuccess(`🔗 ${window.i18n.getText('linkCopied')}`);
             break;
     }
 }
@@ -570,40 +575,34 @@ function closeVsModal() {
 // 난이도 텍스트 변환
 function getDifficultyText(difficulty) {
     const difficultyTexts = {
-        'easy': '쉬움',
-        'normal': '보통',
-        'hard': '어려움',
-        'pro': '프로'
+        'easy': window.i18n.getText('difficultyEasy'),
+        'normal': window.i18n.getText('difficultyNormal'),
+        'hard': window.i18n.getText('difficultyHard'),
+        'pro': window.i18n.getText('difficultyPro')
     };
-    return difficultyTexts[difficulty] || '쉬움';
+    return difficultyTexts[difficulty] || window.i18n.getText('difficultyEasy');
 }
 
 // 난이도별 시간 텍스트 변환
 function getTimeText(difficulty) {
     const timeTexts = {
-        'easy': '2분 30초',
-        'normal': '1분 30초',
-        'hard': '1분',
-        'pro': '30초'
+        'easy': window.i18n.getText('time2m30s'),
+        'normal': window.i18n.getText('time1m30s'),
+        'hard': window.i18n.getText('time1m'),
+        'pro': window.i18n.getText('time30s')
     };
-    return timeTexts[difficulty] || '2분 30초';
+    return timeTexts[difficulty] || window.i18n.getText('time2m30s');
 }
 
 // 공유 기능들
 function getShareMessage() {
-    const difficultyText = {
-        'easy': '쉬움',
-        'normal': '보통', 
-        'hard': '어려움',
-        'pro': '프로'
-    };
-    
-    return `🎯 곶감게임 결과 공유!\n` +
-           `📊 점수: ${gameState.score}점\n` +
-           `🍊 곶감 제거: ${gameState.removedPersimmons}개\n` +
-           `🔥 최대 콤보: ${gameState.maxCombo}연속\n` +
-           `⚙️ 난이도: ${difficultyText[config.difficulty]}\n\n` +
-           `🎮 곶감게임에서 나도 도전해보세요!`;
+    // i18n: shareResultTitle, shareScoreLabel, shareRemovedLabel, shareMaxComboLabel, shareDifficultyLabel, shareTryChallenge - keys not yet in i18n, using inline getText
+    return `🎯 ${window.i18n.getText('numberTest')} ${window.i18n.getText('shareResult')}!\n` +
+           `📊 ${window.i18n.getText('score')}: ${gameState.score}\n` +
+           `🍊 ${window.i18n.getText('removedPersimmons')}: ${gameState.removedPersimmons}\n` +
+           `🔥 ${window.i18n.getText('maxCombo')}: ${gameState.maxCombo}\n` +
+           `⚙️ ${window.i18n.getText('selectedDifficulty')}: ${getDifficultyText(config.difficulty)}\n\n` +
+           `🎮 ${window.i18n.getText('numberTest')}!`;
 }
 
 function shareToKakao() {
@@ -621,8 +620,8 @@ function shareToKakao() {
             Kakao.Share.sendDefault({
                 objectType: 'feed',
                 content: {
-                    title: '🎯 곶감게임 결과 공유!',
-                    description: `${gameState.score}점을 달성했어요!\n난이도: ${getDifficultyText(config.difficulty)}`,
+                    title: `🎯 ${window.i18n.getText('numberTest')} ${window.i18n.getText('shareResult')}!`,
+                    description: `${gameState.score} ${window.i18n.getText('score')}\n${window.i18n.getText('selectedDifficulty')}: ${getDifficultyText(config.difficulty)}`,
                     imageUrl: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCIgdmlld0JveD0iMCAwIDUwMCA1MDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI1MDAiIGhlaWdodD0iNTAwIiBmaWxsPSIjRkZGOERDIi8+Cjx0ZXh0IHg9IjI1MCIgeT0iODAiIGZvbnQtc2l6ZT0iNjAiIGZpbGw9IiM4QjQ1MTMiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJzZXJpZiI+8J+OrzwvdGV4dD4KPHRleHQgeD0iMjUwIiB5PSIxNDAiIGZvbnQtc2l6ZT0iNDgiIGZpbGw9IiM4QjQ1MTMiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJzZXJpZiI+7J6Q6rCM6rKM7J6EPC90ZXh0Pgo8Y2lyY2xlIGN4PSIyNTAiIGN5PSIyMjAiIHI9IjgwIiBmaWxsPSIjRkY2NjAwIiBzdHJva2U9IiNFMjUzMDAiIHN0cm9rZS13aWR0aD0iNSIvPgo8dGV4dCB4PSIyNTAiIHk9IjI0MCIgZm9udC1zaXplPSI0OCIgZmlsbD0iIzJEMTgxMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9ImJvbGQiPjEwPC90ZXh0Pgo8dGV4dCB4PSIyNTAiIHk9IjM0MCIgZm9udC1zaXplPSI0MCIgZmlsbD0iIzhCNDUxMyIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9ImJvbGQiPvCfkYw8L3RleHQ+Cjx0ZXh0IHg9IjI1MCIgeT0iMzkwIiBmb250LXNpemU9IjM2IiBmaWxsPSIjOEI0NTEzIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj7qsaQ6ICcgKyBnYW1lU3RhdGUuc2NvcmUgKyAn7KCEPC90ZXh0Pgo8dGV4dCB4PSIyNTAiIHk9IjQ0MCIgZm9udC1zaXplPSIyNCIgZmlsbD0iIzhCNDUxMyIgdGV4dC1hbmNob3I9Im1pZGRsZSI+64Sk7ZWY6rOw64+EIOuNpOq7hSDnmZztla3oibQ8L3RleHQ+Cjwvc3ZnPgo=',
                     link: {
                         mobileWebUrl: gameUrl,
@@ -630,35 +629,35 @@ function shareToKakao() {
                     },
                 },
                 itemContent: {
-                    profileText: '곶감게임',
+                    profileText: window.i18n.getText('numberTest'),
                     profileImageUrl: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMjAiIGZpbGw9IiNGRjY2MDAiLz4KPHR4dCB4PSIyMCIgeT0iMjYiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXdlaWdodD0iYm9sZCI+5Li6PC90ZXh0Pgo8L3N2Zz4K',
                     titleImageUrl: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMjAiIGZpbGw9IiNGRjY2MDAiLz4KPHR4dCB4PSIyMCIgeT0iMjYiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXdlaWdodD0iYm9sZCI+5Li6PC90ZXh0Pgo8L3N2Zz4K',
-                    titleImageText: '🏆 게임 결과',
+                    titleImageText: `🏆 ${window.i18n.getText('gameResult')}`,
                     
                     items: [
                         {
-                            item: '📊 최종 점수',
-                            itemOp: `${gameState.score}점`,
+                            item: `📊 ${window.i18n.getText('finalScore')}`,
+                            itemOp: `${gameState.score}`,
                         },
                         {
-                            item: '🍊 곶감 제거',
-                            itemOp: `${gameState.removedPersimmons}개`,
+                            item: `🍊 ${window.i18n.getText('removedPersimmons')}`,
+                            itemOp: `${gameState.removedPersimmons}`,
                         },
                         {
-                            item: '🔥 최대 콤보',
-                            itemOp: `${gameState.maxCombo}연속`,
+                            item: `🔥 ${window.i18n.getText('maxCombo')}`,
+                            itemOp: `${gameState.maxCombo}`,
                         },
                         {
-                            item: '⚙️ 난이도',
+                            item: `⚙️ ${window.i18n.getText('selectedDifficulty')}`,
                             itemOp: getDifficultyText(config.difficulty),
                         },
                         {
-                            item: '🏆 최고 기록',
-                            itemOp: `${gameState.highScore}점`,
+                            item: `🏆 ${window.i18n.getText('allTimeHigh')}`,
+                            itemOp: `${gameState.highScore}`,
                         },
                     ],
-                    sum: '총 제거 횟수',
-                    sumOp: `${gameState.movesCount}회`,
+                    sum: window.i18n.getText('totalMoves'),
+                    sumOp: `${gameState.movesCount}`,
                 },
                 social: {
                     likeCount: Math.floor(Math.random() * 50) + 25,
@@ -667,14 +666,14 @@ function shareToKakao() {
                 },
                 buttons: [
                     {
-                        title: config.currentSeed ? '🎮 도전하기' : '🎮 도전하기',
+                        title: `🎮 ${window.i18n.getText('retryChallenge')}`,
                         link: {
                             mobileWebUrl: challengeUrl,
                             webUrl: challengeUrl,
                         },
                     },
                     {
-                        title: '🏠 곶감 홈',
+                        title: `🏠 ${window.i18n.getText('backToHome')}`,
                         link: {
                             mobileWebUrl: gameUrl,
                             webUrl: gameUrl,
@@ -688,7 +687,7 @@ function shareToKakao() {
             // 카카오톡 공유 실패 시 기본 공유 기능으로 대체
             if (navigator.share) {
                 navigator.share({
-                    title: '곶감게임 점수 공유',
+                    title: `${window.i18n.getText('numberTest')} ${window.i18n.getText('shareResult')}`,
                     text: message,
                     url: challengeUrl
                 }).catch(err => {
@@ -704,7 +703,7 @@ function shareToKakao() {
         console.log('Kakao SDK를 찾을 수 없습니다. 기본 공유 기능을 사용합니다.');
         if (navigator.share) {
             navigator.share({
-                title: '곶감게임 점수 공유',
+                title: `${window.i18n.getText('numberTest')} ${window.i18n.getText('shareResult')}`,
                 text: message,
                 url: challengeUrl
             }).catch(err => {
@@ -733,7 +732,9 @@ function shareToInstagram() {
         // 모바일에서 인스타그램 앱 연결 시도
         try {
             // 인스타그램 메시지 준비 (해시태그 포함)
-            const instagramMessage = `${message}\n\n${challengeUrl}\n\n#곶감게임 #퍼즐게임 #모바일게임 #도전 #점수자랑`;
+            // i18n: instagramHashtags - no dedicated key
+            const instagramMessage = `${message}\n\n${challengeUrl}\n\n#${window.i18n.getText('numberTest')}`;
+
             
             // 클립보드에 메시지 복사
             copyToClipboard(instagramMessage);
@@ -750,7 +751,7 @@ function shareToInstagram() {
                     window.open('https://www.instagram.com/', '_blank');
                 }, 1000);
                 
-                showCopySuccess('📸 인스타그램 앱이 열립니다!\n게임 결과가 클립보드에 복사되었으니 스토리나 게시물에 붙여넣어 주세요!');
+                showCopySuccess(`📸 ${window.i18n.getText('instagramShareCopied')}`);
             } 
             // 안드로이드에서 인스타그램 앱 열기
             else if (/Android/.test(navigator.userAgent)) {
@@ -758,11 +759,11 @@ function shareToInstagram() {
                 
                 try {
                     window.location.href = 'instagram://camera';
-                    showCopySuccess('📸 인스타그램 앱이 열립니다!\n게임 결과가 클립보드에 복사되었으니 스토리나 게시물에 붙여넣어 주세요!');
+                    showCopySuccess(`📸 ${window.i18n.getText('instagramShareCopied')}`);
                 } catch (e) {
                     // 앱이 없으면 구글 플레이 스토어로 이동
                     window.open('https://play.google.com/store/apps/details?id=com.instagram.android', '_blank');
-                    showCopySuccess('📸 인스타그램 앱을 설치해주세요!\n게임 결과는 클립보드에 복사되었습니다.');
+                    showCopySuccess(`📸 ${window.i18n.getText('instagramShareCopied')}`);
                 }
             }
             
@@ -771,11 +772,12 @@ function shareToInstagram() {
             // 실패 시 웹 버전으로 이동
             window.open('https://www.instagram.com/', '_blank');
             copyToClipboard(message + '\n\n' + challengeUrl);
-            showCopySuccess('📸 인스타그램 웹사이트가 열립니다!\n게임 결과가 클립보드에 복사되었으니 붙여넣어 주세요!');
+            showCopySuccess(`📸 ${window.i18n.getText('instagramShareCopied')}`);
         }
     } else {
         // PC에서는 웹 인스타그램으로 이동하고 클립보드 복사
-        const instagramMessage = `${message}\n\n${challengeUrl}\n\n#곶감게임 #퍼즐게임 #점수자랑`;
+        // i18n: instagramHashtags - no dedicated key
+        const instagramMessage = `${message}\n\n${challengeUrl}\n\n#${window.i18n.getText('numberTest')}`;
         
         // 클립보드에 복사
         copyToClipboard(instagramMessage);
@@ -783,7 +785,7 @@ function shareToInstagram() {
         // 인스타그램 웹사이트 열기
         window.open('https://www.instagram.com/', '_blank');
         
-        showCopySuccess('📸 인스타그램 웹사이트가 열립니다!\n게임 결과가 클립보드에 복사되었으니 새 게시물에 붙여넣어 주세요!');
+        showCopySuccess(`📸 ${window.i18n.getText('instagramShareCopied')}`);
     }
 }
 
@@ -796,7 +798,7 @@ function shareToFacebook() {
         baseUrl;
     
     const gameUrl = encodeURIComponent(challengeUrl);
-    const title = encodeURIComponent('곶감게임 점수 공유');
+    const title = encodeURIComponent(`${window.i18n.getText('numberTest')} ${window.i18n.getText('shareResult')}`);
     const description = encodeURIComponent(getShareMessage());
     
     const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${gameUrl}&quote=${description}`;
@@ -812,7 +814,7 @@ function copyLink() {
         `${baseUrl}?seed=${config.currentSeed}&difficulty=${config.difficulty}` : 
         baseUrl;
     
-    const fullMessage = message + '\n\n🔗 게임 링크: ' + challengeUrl;
+    const fullMessage = message + '\n\n🔗 ' + challengeUrl;
     
     copyToClipboard(fullMessage);
 }
@@ -846,13 +848,13 @@ function fallbackCopyTextToClipboard(text) {
         showCopySuccess();
     } catch (err) {
         console.error('복사 실패:', err);
-        alert('복사에 실패했습니다. 수동으로 복사해주세요:\n\n' + text);
+        alert(window.i18n.getText('copyFailed') + '\n\n' + text);
     }
     
     document.body.removeChild(textArea);
 }
 
-function showCopySuccess(message = '📋 클립보드에 복사되었습니다!') {
+function showCopySuccess(message = `📋 ${window.i18n.getText('linkCopied')}`) {
     // 기존 알림이 있으면 제거
     const existingNotification = document.querySelector('.copy-success');
     if (existingNotification) {
@@ -1042,7 +1044,7 @@ function endGame() {
     if (elements.allTimeHighScore) elements.allTimeHighScore.textContent = gameState.highScore;
     if (elements.playedDifficulty) {
         const difficultyText = getDifficultyText(config.difficulty);
-        elements.playedDifficulty.textContent = isChallengeMode ? `${difficultyText} (도전 모드)` : difficultyText;
+        elements.playedDifficulty.textContent = isChallengeMode ? `${difficultyText} (${window.i18n.getText('challengeModeLabel')})` : difficultyText;
     }
     
     // 도전 모드 메시지 추가
@@ -1084,10 +1086,10 @@ function addChallengeResultMessage() {
             border: 2px solid #FF2500;
         ">
             <div style="font-size: 18px; font-weight: bold; margin-bottom: 8px;">
-                🎮 친구와 대결 모드 결과!
+                🎮 ${window.i18n.getText('vsFriendTitle')} ${window.i18n.getText('gameResult')}!
             </div>
             <div style="font-size: 24px; font-weight: bold; margin: 10px 0; text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">
-                🏆 ${gameState.score}점 달성!
+                🏆 ${gameState.score} ${window.i18n.getText('score')}!
             </div>
         </div>
     `;
@@ -1665,25 +1667,26 @@ function showChallengeWelcomeMessage(difficulty) {
     welcomeDiv.innerHTML = `
         <div class="challenge-welcome-content">
             <div class="challenge-icon">🎮</div>
-            <h3>친구와 대결 모드!</h3>
-            <p>친구와 같은 환경에서 대결해보세요!</p>
+            <h3>${window.i18n.getText('vsFriendTitle')}!</h3>
+            <p>${window.i18n.getText('vsFriendDesc')}</p>
             <div class="challenge-info">
                 <div class="info-item">
-                    <span class="info-label">난이도:</span>
+                    <span class="info-label">${window.i18n.getText('selectedDifficulty')}:</span>
                     <span class="info-value">${getDifficultyText(difficulty || config.difficulty)}</span>
                 </div>
                 <div class="info-item">
-                    <span class="info-label">게임 방식:</span>
-                    <span class="info-value">같은 숫자의 게임판에서 경쟁</span>
+                    <span class="info-label">${window.i18n.getText('vsFriend')}:</span>
+                    <span class="info-value">${window.i18n.getText('vsFriendDesc')}</span>
                 </div>
                 <div class="info-item">
-                    <span class="info-label">목표:</span>
-                    <span class="info-value">더 높은 점수 달성</span>
+                    <!-- i18n: goal, higherScoreGoal - no dedicated keys -->
+                    <span class="info-label">${window.i18n.getText('highScore')}:</span>
+                    <span class="info-value">${window.i18n.getText('allTimeHigh')}</span>
                 </div>
             </div>
             <div class="challenge-buttons">
-                <button class="challenge-btn start-challenge">🚀 도전 시작!</button>
-                <button class="challenge-btn close-challenge">나중에 하기</button>
+                <button class="challenge-btn start-challenge">🚀 ${window.i18n.getText('startBattle')}!</button>
+                <button class="challenge-btn close-challenge">${window.i18n.getText('close')}</button>
             </div>
         </div>
     `;

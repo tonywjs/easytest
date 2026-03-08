@@ -435,6 +435,15 @@ body.et-dark::before {
     .icon-circle i {
         font-size: 1.5rem !important;
     }
+
+    .et-home-btn {
+        padding: 8px 10px;
+        gap: 0;
+    }
+
+    .et-home-btn span {
+        display: none;
+    }
 }
 
 /* === Utility === */
