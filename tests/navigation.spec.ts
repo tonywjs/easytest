@@ -7,10 +7,10 @@ test.describe('Navigation', () => {
     await expect(page.locator('h1')).toContainText('EasyTest');
   });
 
-  test('all 5 test cards are visible (memory test is commented out)', async ({ page }) => {
+  test('all 6 test cards are visible', async ({ page }) => {
     await page.goto('/');
     const cards = page.locator('.glass-card');
-    await expect(cards).toHaveCount(5);
+    await expect(cards).toHaveCount(6);
   });
 
   test('reaction test card links to correct page', async ({ page }) => {
@@ -53,6 +53,14 @@ test.describe('Navigation', () => {
     await expect(page).toHaveURL(/\/patterntest\//);
   });
 
+  test('color test card links to correct page', async ({ page }) => {
+    await page.goto('/');
+    const colorLink = page.locator('a[href*="colortest"]');
+    await expect(colorLink).toBeVisible();
+    await colorLink.click();
+    await expect(page).toHaveURL(/\/colortest\//);
+  });
+
   test('reaction test page has home button that navigates back', async ({ page }) => {
     await page.goto('/reactiontest/');
     const homeButton = page.locator('a[href="../index.html"]');
@@ -87,6 +95,14 @@ test.describe('Navigation', () => {
 
   test('number test page has home button that navigates back', async ({ page }) => {
     await page.goto('/numbertest/');
+    const homeButton = page.locator('a[href="../index.html"]');
+    await expect(homeButton).toBeVisible();
+    await homeButton.click();
+    await expect(page).toHaveURL(/\/(index\.html)?$/);
+  });
+
+  test('color test page has home button that navigates back', async ({ page }) => {
+    await page.goto('/colortest/');
     const homeButton = page.locator('a[href="../index.html"]');
     await expect(homeButton).toBeVisible();
     await homeButton.click();
@@ -149,6 +165,16 @@ test.describe('Navigation', () => {
       errors.push(error.message);
     });
     await page.goto('/numbertest/');
+    await page.waitForLoadState('networkidle');
+    expect(errors).toEqual([]);
+  });
+
+  test('color test page loads without console errors', async ({ page }) => {
+    const errors: string[] = [];
+    page.on('pageerror', (error) => {
+      errors.push(error.message);
+    });
+    await page.goto('/colortest/');
     await page.waitForLoadState('networkidle');
     expect(errors).toEqual([]);
   });
