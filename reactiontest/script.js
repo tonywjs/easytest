@@ -45,6 +45,43 @@ document.addEventListener('DOMContentLoaded', function() {
     limit: { min: 100, max: 120, avg: 110 }
   };
 
+  // Seeded RNG for challenge mode
+  function createSeededRNG(seed) {
+    var s = seed;
+    return function() {
+      s = (s * 9301 + 49297) % 233280;
+      return s / 233280;
+    };
+  }
+
+  function generateNewSeed() {
+    return typeof ChallengeUtils !== 'undefined' ? ChallengeUtils.generateSeed() : Math.floor(Math.random() * 2147483647);
+  }
+
+  var rng = Math.random;
+  var challengeData = null;
+  var gameSeed = null;
+
+  // Check for challenge mode
+  if (typeof ChallengeUtils !== 'undefined') {
+    challengeData = ChallengeUtils.parseChallenge();
+    if (challengeData && challengeData.testType === 'reaction') {
+      gameSeed = challengeData.seed;
+      rng = createSeededRNG(gameSeed);
+      // Show challenge banner
+      var challengeBanner = document.getElementById('challengeBanner');
+      if (challengeBanner) {
+        challengeBanner.classList.remove('hidden');
+        var preview = document.getElementById('opponentScorePreview');
+        if (preview) preview.textContent = challengeData.score + 'ms';
+      }
+    }
+  }
+  if (!gameSeed) {
+    gameSeed = generateNewSeed();
+    rng = createSeededRNG(gameSeed);
+  }
+
   // 시작 버튼 이벤트
   startTestBtn.addEventListener('click', function() {
     introSection.classList.add('hidden');
@@ -103,22 +140,22 @@ document.addEventListener('DOMContentLoaded', function() {
     colorTest.style.backgroundColor = '#F44336'; // 빨간색
     colorTest.textContent = window.i18n.getText('waitForColor');
 
-    let timeoutDelay = Math.random() * 3000 + 1000; // 1-4초 랜덤 딜레이
-    
+    let timeoutDelay = rng() * 3000 + 1000; // 1-4초 랜덤 딜레이
+
     colorTest.onclick = function() {
       if (colorTest.style.backgroundColor === 'rgb(76, 175, 80)') { // 초록색
         const reactionTime = Date.now() - gameState.clickTime;
         gameState.results.push(reactionTime);
         currentScore.textContent = `${reactionTime}ms`;
-        
+
         gameState.currentAttempt++;
         gameProgress.textContent = `${gameState.currentAttempt}/${gameState.maxAttempts}`;
         progressBar.style.width = `${(gameState.currentAttempt / gameState.maxAttempts) * 100}%`;
-        
+
         if (gameState.currentAttempt < gameState.maxAttempts) {
           colorTest.style.backgroundColor = '#F44336'; // 다시 빨간색
           colorTest.textContent = window.i18n.getText('waitForColor');
-          timeoutDelay = Math.random() * 3000 + 1000;
+          timeoutDelay = rng() * 3000 + 1000;
           setTimeout(changeToGreen, timeoutDelay);
         } else {
           finishTest();
@@ -130,7 +167,7 @@ document.addEventListener('DOMContentLoaded', function() {
         setTimeout(() => {
           colorTest.style.backgroundColor = '#F44336';
           colorTest.textContent = window.i18n.getText('waitForColor');
-          timeoutDelay = Math.random() * 3000 + 1000;
+          timeoutDelay = rng() * 3000 + 1000;
           setTimeout(changeToGreen, timeoutDelay);
         }, 1500);
       }
@@ -222,6 +259,33 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 공유 버튼 설정
     setupShareButtons(averageScore);
+
+    // Challenge comparison
+    if (challengeData) {
+      var compSection = document.getElementById('challengeComparison');
+      if (compSection) {
+        compSection.classList.remove('hidden');
+        document.getElementById('compOpponentScore').textContent = challengeData.score + 'ms';
+        document.getElementById('compMyScore').textContent = averageScore + 'ms';
+
+        var resultText = document.getElementById('challengeResultText');
+        // For reaction test, LOWER is better
+        if (averageScore < challengeData.score) {
+          resultText.textContent = window.i18n.getText('challengeWin');
+          resultText.style.color = '#10b981';
+          document.getElementById('mySide').style.background = 'rgba(16,185,129,0.1)';
+          document.getElementById('mySide').style.border = '1px solid rgba(16,185,129,0.3)';
+        } else if (averageScore > challengeData.score) {
+          resultText.textContent = window.i18n.getText('challengeLose');
+          resultText.style.color = '#ef4444';
+          document.getElementById('opponentSide').style.background = 'rgba(16,185,129,0.1)';
+          document.getElementById('opponentSide').style.border = '1px solid rgba(16,185,129,0.3)';
+        } else {
+          resultText.textContent = window.i18n.getText('challengeDraw');
+          resultText.style.color = '#f59e0b';
+        }
+      }
+    }
   }
 
   // 점수에 따른 위치 퍼센트 계산
@@ -370,6 +434,30 @@ document.addEventListener('DOMContentLoaded', function() {
         });
       });
     }
+
+    // Challenge link
+    var createChallengeBtn = document.getElementById('createChallengeBtn');
+    var challengeLinkContainer = document.getElementById('challengeLinkContainer');
+    var challengeLinkInput = document.getElementById('challengeLink');
+    var copyChallengeLink = document.getElementById('copyChallengeLink');
+
+    if (createChallengeBtn && typeof ChallengeUtils !== 'undefined') {
+      createChallengeBtn.addEventListener('click', function() {
+        var url = ChallengeUtils.createChallengeURL('reaction', gameSeed, score);
+        challengeLinkInput.value = url;
+        challengeLinkContainer.classList.remove('hidden');
+      });
+    }
+
+    if (copyChallengeLink) {
+      copyChallengeLink.addEventListener('click', function() {
+        navigator.clipboard.writeText(challengeLinkInput.value).then(function() {
+          copySuccessMessage.textContent = window.i18n.getText('challengeLinkCopied');
+          copySuccessMessage.classList.remove('hidden');
+          setTimeout(function() { copySuccessMessage.classList.add('hidden'); }, 3000);
+        });
+      });
+    }
   }
 
   // 게임 리셋
@@ -384,5 +472,10 @@ document.addEventListener('DOMContentLoaded', function() {
     };
     gameActionBtn.textContent = window.i18n.getText('start');
     gameActionBtn.disabled = false;
+
+    if (!challengeData) {
+      gameSeed = generateNewSeed();
+    }
+    rng = createSeededRNG(gameSeed);
   }
 }); 
