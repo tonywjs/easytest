@@ -28,6 +28,18 @@ document.addEventListener('DOMContentLoaded', function() {
   const linkCopy = document.getElementById('linkCopy');
   const copySuccessMessage = document.getElementById('copySuccessMessage');
 
+  // Seeded RNG for challenge mode
+  function createSeededRNG(seed) {
+    var s = seed;
+    return function() {
+      s = (s * 9301 + 49297) % 233280;
+      return s / 233280;
+    };
+  }
+  var rng = Math.random;
+  var challengeData = null;
+  var gameSeed = null;
+
   // 게임 상태
   let gameState = {
     testActive: false,
@@ -48,6 +60,28 @@ document.addEventListener('DOMContentLoaded', function() {
     normal: { showTime: 500, pauseTime: 150 },
     hard: { showTime: 300, pauseTime: 100 }
   };
+
+  // Challenge detection
+  if (typeof ChallengeUtils !== 'undefined') {
+    challengeData = ChallengeUtils.parseChallenge();
+    if (challengeData && challengeData.testType === 'pattern') {
+      gameSeed = challengeData.seed;
+      rng = createSeededRNG(gameSeed);
+      var challengeBanner = document.getElementById('challengeBanner');
+      if (challengeBanner) {
+        challengeBanner.classList.remove('hidden');
+        var preview = document.getElementById('opponentScorePreview');
+        if (preview) {
+          var scoreLabel = window.i18n ? window.i18n.getText('colorLevel') : '레벨';
+          preview.textContent = scoreLabel + ' ' + challengeData.score;
+        }
+      }
+    }
+  }
+  if (!gameSeed) {
+    gameSeed = typeof ChallengeUtils !== 'undefined' ? ChallengeUtils.generateSeed() : Math.floor(Math.random() * 2147483647);
+    rng = createSeededRNG(gameSeed);
+  }
 
   // 초기화
   function init() {
@@ -147,7 +181,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // 시퀀스 생성
   function generateSequence() {
-    const newCard = Math.floor(Math.random() * 9);
+    const newCard = Math.floor(rng() * 9);
     gameState.sequence.push(newCard);
     gameState.playerSequence = [];
   }
@@ -408,6 +442,61 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 공유 버튼 설정
     setupShareButtons(level);
+
+    // Challenge comparison (pattern test: score is the level/stage reached)
+    if (challengeData) {
+      var compSection = document.getElementById('challengeComparison');
+      if (compSection) {
+        compSection.classList.remove('hidden');
+        var scoreLabel = window.i18n ? window.i18n.getText('colorLevel') : '레벨';
+        document.getElementById('compOpponentScore').textContent = scoreLabel + ' ' + challengeData.score;
+        document.getElementById('compMyScore').textContent = scoreLabel + ' ' + level;
+
+        var resultText = document.getElementById('challengeResultText');
+        // For pattern test, HIGHER level is better
+        if (level > challengeData.score) {
+          resultText.textContent = window.i18n.getText('challengeWin');
+          resultText.style.color = '#10b981';
+          document.getElementById('mySide').style.background = 'rgba(16,185,129,0.1)';
+          document.getElementById('mySide').style.border = '1px solid rgba(16,185,129,0.3)';
+        } else if (level < challengeData.score) {
+          resultText.textContent = window.i18n.getText('challengeLose');
+          resultText.style.color = '#ef4444';
+          document.getElementById('opponentSide').style.background = 'rgba(16,185,129,0.1)';
+          document.getElementById('opponentSide').style.border = '1px solid rgba(16,185,129,0.3)';
+        } else {
+          resultText.textContent = window.i18n.getText('challengeDraw');
+          resultText.style.color = '#f59e0b';
+        }
+      }
+    }
+
+    // Challenge link generation
+    var createChallengeBtn = document.getElementById('createChallengeBtn');
+    var challengeLinkContainer = document.getElementById('challengeLinkContainer');
+    var challengeLinkInput = document.getElementById('challengeLink');
+    var copyChallengeLink = document.getElementById('copyChallengeLink');
+
+    if (createChallengeBtn && typeof ChallengeUtils !== 'undefined') {
+      createChallengeBtn.addEventListener('click', function() {
+        var url = ChallengeUtils.createChallengeURL('pattern', gameSeed, level);
+        challengeLinkInput.value = url;
+        challengeLinkContainer.classList.remove('hidden');
+      });
+    }
+
+    if (copyChallengeLink) {
+      copyChallengeLink.addEventListener('click', function() {
+        var copyMsg = document.getElementById('copySuccessMessage');
+        navigator.clipboard.writeText(challengeLinkInput.value).then(function() {
+          if (copyMsg) {
+            copyMsg.textContent = window.i18n.getText('challengeLinkCopied');
+            copyMsg.classList.remove('hidden');
+            setTimeout(function() { copyMsg.classList.add('hidden'); }, 3000);
+          }
+        });
+      });
+    }
   }
 
   // 비교 행 추가
@@ -552,6 +641,12 @@ document.addEventListener('DOMContentLoaded', function() {
     };
     gameActionBtn.textContent = window.i18n.getText('gameStart');
     gameActionBtn.disabled = false;
+
+    // Reset RNG
+    if (!challengeData) {
+      gameSeed = typeof ChallengeUtils !== 'undefined' ? ChallengeUtils.generateSeed() : Math.floor(Math.random() * 2147483647);
+    }
+    rng = createSeededRNG(gameSeed);
   }
 
   // 초기 화면으로 나가기
