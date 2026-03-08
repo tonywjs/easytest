@@ -120,6 +120,7 @@
         .card-stagger:nth-child(3) { animation-delay: 0.3s; }
         .card-stagger:nth-child(4) { animation-delay: 0.4s; }
         .card-stagger:nth-child(5) { animation-delay: 0.5s; }
+        .card-stagger:nth-child(6) { animation-delay: 0.6s; }
 
         @media (max-width: 480px) {
             .hero-badge {
@@ -310,6 +311,37 @@
                         </div>
 
                         <a href="./patterntest/" class="card-cta">
+                            <span data-i18n="startTest">테스트 시작하기</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+
+                    <!-- 색각 테스트 -->
+                    <div class="glass-card p-8 card-stagger animate-fadeInUp">
+                        <div class="text-center mb-6">
+                            <div class="icon-circle" style="background: linear-gradient(135deg, #06b6d4, #8b5cf6);">
+                                <i class="fas fa-eye text-3xl text-white"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-white mb-2" data-i18n="colorTest">색각 테스트</h3>
+                            <p class="text-sm text-gray-400" data-i18n="colorTestDesc">미세한 색상 차이를 구별할 수 있나요?</p>
+                        </div>
+
+                        <div class="space-y-1 mb-8 flex-1">
+                            <div class="card-detail">
+                                <i class="fas fa-clock text-cyan-400"></i>
+                                <span><span data-i18n="duration">소요시간</span>: <span data-i18n="colorDuration">약 2분</span></span>
+                            </div>
+                            <div class="card-detail">
+                                <i class="fas fa-palette text-cyan-400"></i>
+                                <span data-i18n="colorAbility">색상 구별 능력 측정</span>
+                            </div>
+                            <div class="card-detail">
+                                <i class="fas fa-signal text-cyan-400"></i>
+                                <span data-i18n="colorProgressive">점진적 난이도 상승</span>
+                            </div>
+                        </div>
+
+                        <a href="./colortest/" class="card-cta">
                             <span data-i18n="startTest">테스트 시작하기</span>
                             <i class="fas fa-arrow-right"></i>
                         </a>
