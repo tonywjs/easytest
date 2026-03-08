@@ -138,23 +138,24 @@ document.addEventListener('DOMContentLoaded', function() {
       return window.i18n.getText(key);
     }
     var defaults = {
-      colorCorrect: '정답!',
-      colorWrong: '틀렸습니다!',
+      colorLevel: '레벨',
+      colorCorrect: '정답! 🎉',
+      colorWrong: '틀렸습니다! 💔',
       colorGameOver: '게임 오버!',
-      colorShareText: '색각 테스트에서 Level {score}을 달성했습니다! 당신의 색각 능력은?',
-      colorKakaoTitle: '색각 테스트 결과',
-      colorKakaoDesc: 'Level {score} 달성! 당신도 도전해보세요!',
+      colorShareText: '내 색각 테스트 결과: 레벨 {level}! 당신은 몇 레벨까지 갈 수 있나요? #색각테스트 #색상구별',
+      colorKakaoTitle: '👁️ 색각 테스트 결과',
+      colorKakaoDesc: '레벨 {level} 달성! 당신도 도전해보세요!',
       colorKakaoButton: '나도 테스트하기',
-      colorInstagramText: '색각 테스트 결과: Level {score}!\n\n미세한 색상 차이를 얼마나 잘 구별하나요?\n\n#색각테스트 #ColorVisionTest #EasyTest',
+      colorInstagramText: '내 색각 테스트 결과: 레벨 {level}!\n\n당신은 몇 레벨까지 갈 수 있나요? 👁️\n\n#색각테스트 #색상구별 #시력테스트 #눈건강',
       copied: '복사되었습니다!',
       linkCopied: '링크가 복사되었습니다!',
-      instagramShareCopied: '인스타그램용 텍스트가 복사되었습니다!',
-      kakaoShareCopied: '공유 텍스트가 복사되었습니다!',
-      shareTextAlert: '아래 텍스트를 복사하세요:',
-      copyFailed: '복사에 실패했습니다. 아래 텍스트를 직접 복사해주세요:',
-      challengeWin: '승리! 축하합니다!',
-      challengeLose: '아쉽지만 패배입니다!',
-      challengeDraw: '무승부입니다!',
+      instagramShareCopied: '인스타그램 공유 텍스트가 복사되었습니다!',
+      kakaoShareCopied: '카카오톡 공유 텍스트가 복사되었습니다!',
+      shareTextAlert: '공유할 텍스트:',
+      copyFailed: '텍스트 복사에 실패했습니다. 수동으로 복사해주세요:',
+      challengeWin: '🏆 승리!',
+      challengeLose: '😢 패배...',
+      challengeDraw: '🤝 무승부!',
       challengeModeLabel: '도전 모드'
     };
     return defaults[key] || key;
@@ -317,7 +318,7 @@ document.addEventListener('DOMContentLoaded', function() {
     resultSection.classList.remove('hidden');
 
     // 점수 표시
-    resultScore.textContent = 'Level ' + finalLevel;
+    resultScore.textContent = getText('colorLevel') + ' ' + finalLevel;
 
     // 등급 결정 및 아이콘 설정
     if (finalLevel >= 16) {
@@ -338,8 +339,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // 챌린지 비교
     if (gameState.challengeData && gameState.challengeData.score !== undefined) {
       var opponentLevel = gameState.challengeData.score;
-      opponentScoreEl.textContent = 'Level ' + opponentLevel;
-      myScoreEl.textContent = 'Level ' + finalLevel;
+      opponentScoreEl.textContent = getText('colorLevel') + ' ' + opponentLevel;
+      myScoreEl.textContent = getText('colorLevel') + ' ' + finalLevel;
 
       var players = challengeComparison.querySelectorAll('.challenge-player');
       if (finalLevel > opponentLevel) {
@@ -410,13 +411,13 @@ document.addEventListener('DOMContentLoaded', function() {
     if (kakaoShare) {
       kakaoShare.addEventListener('click', function() {
         var score = gameState.finalLevel;
-        var shareText = getText('colorShareText').replace('{score}', score);
+        var shareText = getText('colorShareText').replace('{level}', score);
         if (typeof Kakao !== 'undefined' && Kakao.isInitialized && Kakao.isInitialized()) {
           Kakao.Share.sendDefault({
             objectType: 'feed',
             content: {
               title: getText('colorKakaoTitle'),
-              description: getText('colorKakaoDesc').replace('{score}', score),
+              description: getText('colorKakaoDesc').replace('{level}', score),
               imageUrl: 'https://via.placeholder.com/800x400/06b6d4/ffffff?text=Color+Vision+Test',
               link: {
                 mobileWebUrl: shareUrl,
@@ -456,7 +457,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (facebookShare) {
       facebookShare.addEventListener('click', function() {
         var score = gameState.finalLevel;
-        var shareText = getText('colorShareText').replace('{score}', score);
+        var shareText = getText('colorShareText').replace('{level}', score);
         var url = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(shareUrl) + '&quote=' + encodeURIComponent(shareText);
         window.open(url, '_blank');
       });
@@ -466,7 +467,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (instagramShare) {
       instagramShare.addEventListener('click', function() {
         var score = gameState.finalLevel;
-        var instagramText = getText('colorInstagramText').replace('{score}', score);
+        var instagramText = getText('colorInstagramText').replace('{level}', score);
         navigator.clipboard.writeText(instagramText).then(function() {
           showCopySuccess(getText('instagramShareCopied'));
         }).catch(function() {
