@@ -1,3 +1,14 @@
+function createSeededRNG(seed) {
+    var s = seed;
+    return function() {
+        s = (s * 9301 + 49297) % 233280;
+        return s / 233280;
+    };
+}
+var rng = Math.random;
+var challengeData = null;
+var gameSeed = null;
+
 class TypingTest {
     constructor() {
         this.targetTexts = [
@@ -20,7 +31,27 @@ class TypingTest {
         this.timer = null;
         this.usingCustomText = false;
         this.isComposing = false;
-        
+
+        // Challenge detection
+        if (typeof ChallengeUtils !== 'undefined') {
+            var parsed = ChallengeUtils.parseChallenge();
+            if (parsed && parsed.testType === 'typing') {
+                challengeData = parsed;
+                gameSeed = challengeData.seed;
+                rng = createSeededRNG(gameSeed);
+                var challengeBanner = document.getElementById('challengeBanner');
+                if (challengeBanner) {
+                    challengeBanner.classList.remove('hidden');
+                    var preview = document.getElementById('opponentScorePreview');
+                    if (preview) preview.textContent = challengeData.score + ' WPM';
+                }
+            }
+        }
+        if (!gameSeed) {
+            gameSeed = typeof ChallengeUtils !== 'undefined' ? ChallengeUtils.generateSeed() : Math.floor(Math.random() * 2147483647);
+            rng = createSeededRNG(gameSeed);
+        }
+
         this.initElements();
         this.initEventListeners();
         this.loadRandomText();
@@ -65,7 +96,7 @@ class TypingTest {
     }
     
     loadRandomText() {
-        const randomIndex = Math.floor(Math.random() * this.targetTexts.length);
+        const randomIndex = Math.floor(rng() * this.targetTexts.length);
         this.currentText = this.targetTexts[randomIndex];
         this.usingCustomText = false;
         
@@ -204,6 +235,12 @@ class TypingTest {
             this.timer = null;
         }
         
+        // Reset RNG for new game
+        if (!challengeData) {
+            gameSeed = typeof ChallengeUtils !== 'undefined' ? ChallengeUtils.generateSeed() : Math.floor(Math.random() * 2147483647);
+        }
+        rng = createSeededRNG(gameSeed);
+
         if (!this.usingCustomText) {
             this.loadRandomText();
         } else {
@@ -314,7 +351,61 @@ class TypingTest {
         
         this.resultContainer.style.display = 'block';
         this.shareButtons.style.display = 'flex';
-        
+
+        // Challenge comparison
+        if (challengeData) {
+            var compSection = document.getElementById('challengeComparison');
+            if (compSection) {
+                compSection.classList.remove('hidden');
+                document.getElementById('compOpponentScore').textContent = challengeData.score + ' WPM';
+                document.getElementById('compMyScore').textContent = finalWpm + ' WPM';
+
+                var resultText = document.getElementById('challengeResultText');
+                // For typing test, HIGHER WPM is better
+                if (finalWpm > challengeData.score) {
+                    resultText.textContent = window.i18n.getText('challengeWin');
+                    resultText.style.color = '#10b981';
+                    document.getElementById('mySide').style.background = 'rgba(16,185,129,0.1)';
+                    document.getElementById('mySide').style.border = '1px solid rgba(16,185,129,0.3)';
+                } else if (finalWpm < challengeData.score) {
+                    resultText.textContent = window.i18n.getText('challengeLose');
+                    resultText.style.color = '#ef4444';
+                    document.getElementById('opponentSide').style.background = 'rgba(16,185,129,0.1)';
+                    document.getElementById('opponentSide').style.border = '1px solid rgba(16,185,129,0.3)';
+                } else {
+                    resultText.textContent = window.i18n.getText('challengeDraw');
+                    resultText.style.color = '#f59e0b';
+                }
+            }
+        }
+
+        // Challenge link generation
+        var createChallengeBtn = document.getElementById('createChallengeBtn');
+        var challengeLinkContainer = document.getElementById('challengeLinkContainer');
+        var challengeLinkInput = document.getElementById('challengeLink');
+        var copyChallengeLink = document.getElementById('copyChallengeLink');
+
+        if (createChallengeBtn && typeof ChallengeUtils !== 'undefined') {
+            createChallengeBtn.onclick = function() {
+                var url = ChallengeUtils.createChallengeURL('typing', gameSeed, finalWpm);
+                challengeLinkInput.value = url;
+                challengeLinkContainer.classList.remove('hidden');
+            };
+        }
+
+        if (copyChallengeLink) {
+            copyChallengeLink.onclick = function() {
+                var copyMsg = document.getElementById('copySuccessMessage');
+                navigator.clipboard.writeText(challengeLinkInput.value).then(function() {
+                    if (copyMsg) {
+                        copyMsg.textContent = window.i18n.getText('challengeLinkCopied');
+                        copyMsg.classList.remove('hidden');
+                        setTimeout(function() { copyMsg.classList.add('hidden'); }, 3000);
+                    }
+                });
+            };
+        }
+
         // 성과에 따른 메시지
         this.showCompletionMessage(finalWpm, finalAccuracy);
     }
