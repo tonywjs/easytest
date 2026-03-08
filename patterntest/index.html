@@ -6,62 +6,58 @@
   <title>순차 기억력 테스트 - 메모리 챌린지</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link href="../css/common.css" rel="stylesheet">
   <link href="styles.css" rel="stylesheet">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7637874916831135"
      crossorigin="anonymous"></script>
   <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.5/kakao.min.js" integrity="sha384-dok87au0gKqJdxs7msEdBPNnKSRT+/mhTVzq+qOhcL464zXwvcrpjeWvyj1kCdq6" crossorigin="anonymous"></script>
 </head>
-<body>
+<body class="et-dark">
   <!-- 홈 버튼 -->
-  <div class="fixed top-4 left-4 z-50">
-      <a href="../index.html" class="inline-flex items-center px-4 py-2 bg-white text-gray-700 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 hover:bg-gray-50">
-          <i class="fas fa-home mr-2"></i>
-          <span data-i18n="backToHome">홈으로</span>
-      </a>
-  </div>
+  <a href="../index.html" class="et-home-btn">
+      <i class="fas fa-home"></i>
+      <span data-i18n="backToHome">홈으로</span>
+  </a>
 
   <div id="app" class="container mx-auto px-4 py-8 max-w-4xl">
     <!-- 헤더 영역 -->
     <header id="mainHeader" class="text-center mb-10">
-      <h1 class="text-4xl font-bold mb-2 text-indigo-700" data-i18n="patternTest">순차 기억력 테스트</h1>
-      <p class="text-xl text-gray-600" data-i18n="patternDesc">카드 순서를 얼마나 많이 기억할 수 있나요?</p>
+      <h1 class="text-4xl font-bold mb-2 text-white text-glow" data-i18n="patternTest">순차 기억력 테스트</h1>
+      <p class="text-xl text-gray-400" data-i18n="patternDesc">카드 순서를 얼마나 많이 기억할 수 있나요?</p>
     </header>
-    
+
     <!-- 인트로 화면 -->
-    <div id="introSection" class="bg-white p-6 rounded-lg shadow-md mb-8">
+    <div id="introSection" class="glass-content p-6 rounded-2xl mb-8">
       <div class="text-center mb-6">
-        <i class="fas fa-brain text-5xl text-purple-500 mb-4"></i>
-        <h2 class="text-2xl font-bold mb-2" data-i18n="patternIntroTitle">순차 기억력 & 집중력 테스트</h2>
-        <p class="text-gray-600 mb-4" data-i18n="patternIntroDesc">점점 늘어나는 카드 순서를 기억하고 똑같이 클릭하세요!</p>
+        <i class="fas fa-brain text-5xl text-purple-400 mb-4"></i>
+        <h2 class="text-2xl font-bold mb-2 text-white" data-i18n="patternIntroTitle">순차 기억력 & 집중력 테스트</h2>
+        <p class="text-gray-400 mb-4" data-i18n="patternIntroDesc">점점 늘어나는 카드 순서를 기억하고 똑같이 클릭하세요!</p>
       </div>
-      
+
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-        <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
-          <div class="text-center">
-            <i class="fas fa-star text-3xl text-yellow-500 mb-2"></i>
-            <h3 class="font-bold" data-i18n="beginner">초급자</h3>
-            <p class="text-xl font-semibold" data-i18n="stages3to5">3-5단계</p>
-          </div>
+        <div class="et-info-card text-center">
+          <i class="fas fa-star text-3xl text-yellow-400 mb-2"></i>
+          <h3 class="font-bold text-white" data-i18n="beginner">초급자</h3>
+          <p class="text-xl font-semibold text-gray-300" data-i18n="stages3to5">3-5단계</p>
         </div>
-        <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
-          <div class="text-center">
-            <i class="fas fa-fire text-3xl text-orange-500 mb-2"></i>
-            <h3 class="font-bold" data-i18n="expert">고수</h3>
-            <p class="text-xl font-semibold" data-i18n="stages6to9">6-9단계</p>
-          </div>
+        <div class="et-info-card text-center">
+          <i class="fas fa-fire text-3xl text-orange-400 mb-2"></i>
+          <h3 class="font-bold text-white" data-i18n="expert">고수</h3>
+          <p class="text-xl font-semibold text-gray-300" data-i18n="stages6to9">6-9단계</p>
         </div>
-        <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
-          <div class="text-center">
-            <i class="fas fa-crown text-3xl text-amber-500 mb-2"></i>
-            <h3 class="font-bold" data-i18n="memoryGenius">기억력 천재</h3>
-            <p class="text-xl font-semibold" data-i18n="stages10plus">10단계+</p>
-          </div>
+        <div class="et-info-card text-center">
+          <i class="fas fa-crown text-3xl text-amber-400 mb-2"></i>
+          <h3 class="font-bold text-white" data-i18n="memoryGenius">기억력 천재</h3>
+          <p class="text-xl font-semibold text-gray-300" data-i18n="stages10plus">10단계+</p>
         </div>
       </div>
 
-      <div class="bg-purple-50 p-4 rounded-lg mb-6">
-        <h3 class="font-bold mb-2 text-purple-700"><i class="fas fa-info-circle mr-2"></i><span data-i18n="gameRules">게임 규칙</span></h3>
-        <ul class="list-disc list-inside text-gray-700 space-y-1">
+      <div class="et-rules-box mb-6">
+        <h3 class="font-bold mb-2 text-purple-300"><i class="fas fa-info-circle mr-2"></i><span data-i18n="gameRules">게임 규칙</span></h3>
+        <ul class="list-disc list-inside space-y-1">
           <li data-i18n="patternRule1">1단계부터 시작하여 카드가 깜빡이는 순서를 기억하세요</li>
           <li data-i18n="patternRule2">기억한 순서대로 카드를 클릭하세요</li>
           <li data-i18n="patternRule3">성공하면 다음 단계에서 카드 개수가 1개씩 늘어납니다</li>
@@ -71,48 +67,48 @@
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-        <div class="bg-indigo-50 p-4 rounded-lg">
-          <h3 class="font-bold mb-2 text-indigo-700"><i class="fas fa-gamepad mr-2"></i><span data-i18n="difficultySelect">난이도 선택</span></h3>
+        <div class="et-info-card">
+          <h3 class="font-bold mb-2 text-purple-300"><i class="fas fa-gamepad mr-2"></i><span data-i18n="difficultySelect">난이도 선택</span></h3>
           <div class="space-y-2">
-            <label class="flex items-center">
+            <label class="flex items-center text-gray-300">
               <input type="radio" name="difficulty" value="easy" class="mr-2" checked>
               <span data-i18n="easyDifficulty">쉬움 (0.8초 표시)</span>
             </label>
-            <label class="flex items-center">
+            <label class="flex items-center text-gray-300">
               <input type="radio" name="difficulty" value="normal" class="mr-2">
               <span data-i18n="normalDifficulty">보통 (0.5초 표시)</span>
             </label>
-            <label class="flex items-center">
+            <label class="flex items-center text-gray-300">
               <input type="radio" name="difficulty" value="hard" class="mr-2">
               <span data-i18n="hardDifficulty">어려움 (0.3초 표시)</span>
             </label>
           </div>
         </div>
-        <div class="bg-red-50 p-4 rounded-lg">
-          <h3 class="font-bold mb-2 text-red-700"><i class="fas fa-heart mr-2"></i><span data-i18n="lifeSystem">라이프 시스템</span></h3>
-          <p class="text-gray-700">총 <span class="font-bold text-red-600" data-i18n="lifeCount">2개의 라이프</span><span data-i18n="lifeDesc">가 주어집니다.</span></p>
-          <p class="text-sm text-gray-600 mt-1" data-i18n="lifeSubDesc">틀릴 때마다 라이프가 1개씩 줄어들어요.</p>
+        <div class="et-info-card">
+          <h3 class="font-bold mb-2 text-red-400"><i class="fas fa-heart mr-2"></i><span data-i18n="lifeSystem">라이프 시스템</span></h3>
+          <p class="text-gray-300">총 <span class="font-bold text-red-400" data-i18n="lifeCount">2개의 라이프</span><span data-i18n="lifeDesc">가 주어집니다.</span></p>
+          <p class="text-sm text-gray-400 mt-1" data-i18n="lifeSubDesc">틀릴 때마다 라이프가 1개씩 줄어들어요.</p>
         </div>
       </div>
 
       <div class="text-center">
-        <button id="startTestBtn" class="btn bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-3 rounded-lg font-bold text-lg">
+        <button id="startTestBtn" class="et-btn et-btn-primary text-lg">
           <span data-i18n="startTest">게임 시작하기</span> <i class="fas fa-arrow-right ml-2"></i>
         </button>
       </div>
     </div>
-    
+
     <!-- 게임 영역 -->
     <div id="gameSection" class="hidden">
-      <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+      <div class="glass-content p-6 rounded-2xl mb-8">
         <div class="flex flex-wrap items-center justify-between mb-4">
           <div class="flex items-center space-x-4">
             <div>
-              <span class="text-sm text-gray-500" data-i18n="currentStage">현재 단계:</span>
-              <span id="currentLevel" class="font-semibold text-indigo-600">1</span>
+              <span class="text-sm text-gray-400" data-i18n="currentStage">현재 단계:</span>
+              <span id="currentLevel" class="font-semibold text-purple-400">1</span>
             </div>
             <div id="livesDisplay" class="flex items-center">
-              <span class="text-sm text-gray-500 mr-2" data-i18n="lives">라이프:</span>
+              <span class="text-sm text-gray-400 mr-2" data-i18n="lives">라이프:</span>
               <div id="livesHearts" class="flex space-x-1">
                 <i class="fas fa-heart text-red-500"></i>
                 <i class="fas fa-heart text-red-500"></i>
@@ -120,8 +116,8 @@
             </div>
           </div>
           <div>
-            <span class="text-sm text-gray-500" data-i18n="bestRecord">최고 기록:</span>
-            <span id="bestScore" class="font-semibold text-purple-600">-</span>
+            <span class="text-sm text-gray-400" data-i18n="bestRecord">최고 기록:</span>
+            <span id="bestScore" class="font-semibold text-purple-400">-</span>
           </div>
         </div>
 
@@ -130,38 +126,38 @@
         </div>
 
         <div class="flex justify-center mt-6 space-x-3">
-          <button id="gameActionBtn" class="btn bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg font-bold" data-i18n="start">
+          <button id="gameActionBtn" class="et-btn et-btn-primary" data-i18n="start">
             시작
           </button>
-          <button id="exitGameBtn" class="btn bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded-lg font-bold">
+          <button id="exitGameBtn" class="et-btn et-btn-ghost">
             <i class="fas fa-times mr-1"></i> <span data-i18n="exit">나가기</span>
           </button>
         </div>
       </div>
     </div>
-    
+
     <!-- 결과 영역 -->
     <div id="resultSection" class="hidden">
-      <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+      <div class="glass-content p-6 rounded-2xl mb-8">
         <div class="text-center mb-6">
-          <i id="resultIcon" class="fas fa-award text-5xl text-amber-500 mb-2"></i>
-          <h2 class="text-2xl font-bold mb-2" data-i18n="gameResult">게임 결과</h2>
-          <p id="resultDescription" class="text-gray-600"><span data-i18n="finalStage">최종 도달 단계</span>: <span id="finalLevel" class="font-bold text-indigo-600">5단계</span></p>
+          <i id="resultIcon" class="fas fa-award text-5xl text-amber-400 mb-2"></i>
+          <h2 class="text-2xl font-bold mb-2 text-white" data-i18n="gameResult">게임 결과</h2>
+          <p id="resultDescription" class="text-gray-400"><span data-i18n="finalStage">최종 도달 단계</span>: <span id="finalLevel" class="font-bold text-purple-400">5단계</span></p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <h3 class="font-bold mb-4 text-center" data-i18n="stageResults">단계별 결과</h3>
+            <h3 class="font-bold mb-4 text-center text-white" data-i18n="stageResults">단계별 결과</h3>
             <div id="gameResults" class="space-y-2 max-h-60 overflow-y-auto">
               <!-- 각 단계 결과가 여기에 표시됩니다 -->
             </div>
           </div>
 
           <div>
-            <h3 class="font-bold mb-4 text-center" data-i18n="gradeComparison">등급 비교</h3>
-            <table class="w-full text-sm">
+            <h3 class="font-bold mb-4 text-center text-white" data-i18n="gradeComparison">등급 비교</h3>
+            <table class="et-table">
               <thead>
-                <tr class="bg-gray-50">
+                <tr>
                   <th class="py-2 px-4 text-left" data-i18n="grade">등급</th>
                   <th class="py-2 px-4 text-right" data-i18n="stage">단계</th>
                   <th class="py-2 px-4 text-right" data-i18n="evaluation">평가</th>
@@ -174,29 +170,29 @@
           </div>
         </div>
 
-        <div id="shareContainer" class="mt-8 border-t border-gray-200 pt-6">
-          <h3 class="font-bold mb-4 text-center" data-i18n="shareResult">결과 공유하기</h3>
+        <div id="shareContainer" class="mt-8 border-t pt-6" style="border-color: var(--et-border);">
+          <h3 class="font-bold mb-4 text-center text-white" data-i18n="shareResult">결과 공유하기</h3>
           <div class="flex flex-wrap justify-center gap-4 mb-6">
-            <button id="kakaoShare" class="share-button bg-yellow-400 hover:bg-yellow-500 px-4 py-2 rounded-full">
+            <button id="kakaoShare" class="et-share-btn et-share-kakao">
               <i class="fas fa-comment mr-1"></i> <span data-i18n="kakaoTalk">카카오톡</span>
             </button>
-            <button id="facebookShare" class="share-button bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-full">
+            <button id="facebookShare" class="et-share-btn et-share-facebook">
               <i class="fab fa-facebook-f mr-1"></i> <span data-i18n="facebook">페이스북</span>
             </button>
-            <button id="instagramShare" class="share-button bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 px-4 py-2 rounded-full">
+            <button id="instagramShare" class="et-share-btn et-share-instagram">
               <i class="fab fa-instagram mr-1"></i> <span data-i18n="instagram">인스타그램</span>
             </button>
-            <button id="linkCopy" class="share-button bg-gray-600 hover:bg-gray-700 px-4 py-2 rounded-full">
+            <button id="linkCopy" class="et-share-btn et-share-link">
               <i class="fas fa-link mr-1"></i> <span data-i18n="copyLink">링크 복사</span>
             </button>
           </div>
-          <div id="copySuccessMessage" class="mt-3 text-center text-green-600 font-semibold hidden">
+          <div id="copySuccessMessage" class="mt-3 text-center text-green-400 font-semibold hidden">
             <i class="fas fa-check-circle mr-1"></i> <span data-i18n="copied">복사되었습니다!</span>
           </div>
         </div>
 
         <div class="text-center mt-8">
-          <button id="retryBtn" class="btn bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg font-bold">
+          <button id="retryBtn" class="et-btn et-btn-primary">
             <i class="fas fa-redo-alt mr-2"></i> <span data-i18n="retryChallenge">다시 도전하기</span>
           </button>
         </div>
@@ -204,7 +200,7 @@
     </div>
   </div>
 
-  <footer class="bg-gray-800 text-white py-6 mt-10">
+  <footer class="et-footer mt-10">
     <div class="container mx-auto px-4 text-center">
       <p data-i18n="copyright">&copy; 2025 EasyTest.</p>
     </div>
@@ -231,4 +227,4 @@
       console.log('Kakao SDK 초기화 실패:', e);
   }
 </script>
-</html> 
+</html>

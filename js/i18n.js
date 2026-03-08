@@ -869,7 +869,7 @@ class I18n {
 
         var selector = document.createElement('div');
         selector.id = 'language-selector';
-        selector.style.cssText = 'position:fixed;top:16px;right:16px;z-index:9999;display:flex;gap:4px;background:rgba(255,255,255,0.95);padding:6px 8px;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,0.15);backdrop-filter:blur(10px);';
+        selector.style.cssText = 'position:fixed;top:16px;right:16px;z-index:9999;display:flex;gap:4px;background:rgba(255,255,255,0.08);padding:6px 8px;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,0.3);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,0.1);';
 
         var languages = [
             { code: 'kr', flag: '\u{1F1F0}\u{1F1F7}', name: '\uD55C\uAD6D\uC5B4' },
@@ -883,22 +883,25 @@ class I18n {
             var button = document.createElement('button');
             button.style.cssText = 'border:none;background:none;padding:4px 8px;border-radius:8px;cursor:pointer;font-size:13px;transition:all 0.2s;white-space:nowrap;';
             if (self.currentLang === lang.code) {
-                button.style.background = '#667eea';
+                button.style.background = '#7c3aed';
                 button.style.color = 'white';
                 button.style.fontWeight = '600';
+                button.style.boxShadow = '0 2px 8px rgba(124,58,237,0.4)';
             } else {
-                button.style.color = '#374151';
+                button.style.color = 'rgba(255,255,255,0.7)';
             }
             button.textContent = lang.flag + ' ' + lang.name;
             button.setAttribute('data-lang', lang.code);
             button.addEventListener('mouseenter', function() {
                 if (self.currentLang !== lang.code) {
-                    this.style.background = '#f3f4f6';
+                    this.style.background = 'rgba(255,255,255,0.1)';
+                    this.style.color = 'white';
                 }
             });
             button.addEventListener('mouseleave', function() {
                 if (self.currentLang !== lang.code) {
                     this.style.background = 'none';
+                    this.style.color = 'rgba(255,255,255,0.7)';
                 }
             });
             button.addEventListener('click', function() {
@@ -916,13 +919,15 @@ class I18n {
         buttons.forEach(function(button) {
             var langCode = button.getAttribute('data-lang');
             if (self.currentLang === langCode) {
-                button.style.background = '#667eea';
+                button.style.background = '#7c3aed';
                 button.style.color = 'white';
                 button.style.fontWeight = '600';
+                button.style.boxShadow = '0 2px 8px rgba(124,58,237,0.4)';
             } else {
                 button.style.background = 'none';
-                button.style.color = '#374151';
+                button.style.color = 'rgba(255,255,255,0.7)';
                 button.style.fontWeight = 'normal';
+                button.style.boxShadow = 'none';
             }
         });
     }

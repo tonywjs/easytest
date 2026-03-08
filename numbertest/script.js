@@ -1093,7 +1093,7 @@ function addChallengeResultMessage() {
     `;
     
     // 최종 점수 표시 영역 다음에 삽입
-    const scoreSection = gameOverModal.querySelector('.bg-gradient-to-r');
+    const scoreSection = gameOverModal.querySelector('.result-score-box');
     if (scoreSection) {
         scoreSection.insertAdjacentElement('afterend', challengeResultDiv);
     }

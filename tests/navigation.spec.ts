@@ -9,7 +9,7 @@ test.describe('Navigation', () => {
 
   test('all 5 test cards are visible (memory test is commented out)', async ({ page }) => {
     await page.goto('/');
-    const cards = page.locator('.test-card');
+    const cards = page.locator('.glass-card');
     await expect(cards).toHaveCount(5);
   });
 

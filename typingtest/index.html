@@ -4,18 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>타이핑 속도 테스트</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="../css/common.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.5/kakao.min.js" integrity="sha384-dok87au0gKqJdxs7msEdBPNnKSRT+/mhTVzq+qOhcL464zXwvcrpjeWvyj1kCdq6" crossorigin="anonymous"></script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7637874916831135"
      crossorigin="anonymous"></script>
 </head>
-<body>
+<body class="et-dark">
     <!-- 홈 버튼 -->
-    <div style="position: fixed; top: 16px; left: 16px; z-index: 1000;">
-        <a href="../index.html" style="display: inline-flex; align-items: center; padding: 8px 16px; background: white; color: #374151; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); text-decoration: none; transition: all 0.2s;">
-            <i class="fas fa-home" style="margin-right:4px"></i> <span data-i18n="backToHome">홈으로</span>
-        </a>
-    </div>
+    <a href="../index.html" class="et-home-btn">
+        <i class="fas fa-home"></i> <span data-i18n="backToHome">홈으로</span>
+    </a>
 
     <div class="container">
         <header>
@@ -44,8 +46,8 @@
             </div>
 
             <div class="input-container">
-                <textarea 
-                    id="typing-input" 
+                <textarea
+                    id="typing-input"
                     data-i18n="typingPlaceholder"
                     placeholder="타이핑을 시작하면 자동으로 테스트가 시작됩니다..."
                 ></textarea>
@@ -80,8 +82,8 @@
 
             <div class="custom-text-container">
                 <label for="custom-text-input" data-i18n="customTestLabel">내 맘대로 테스트</label>
-                <textarea 
-                    id="custom-text-input" 
+                <textarea
+                    id="custom-text-input"
                     data-i18n="customTextPlaceholder"
                     placeholder="원하는 텍스트를 입력하세요 (비워두면 기본 문장 사용)"
                     rows="3"
@@ -90,6 +92,10 @@
             </div>
         </main>
     </div>
+
+    <footer class="et-footer">
+        <p>EasyTest &copy; 2024</p>
+    </footer>
 
     <!-- 다국어 시스템 로드 -->
     <script src="../js/i18n.js"></script>
@@ -113,4 +119,4 @@
         }
     </script>
 </body>
-</html> 
+</html>

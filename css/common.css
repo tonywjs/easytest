@@ -1,0 +1,442 @@
+/* ============================================
+   EasyTest Design System - common.css
+   Dark theme with glassmorphism
+   ============================================ */
+
+/* === Design Tokens === */
+:root {
+    --et-primary: #7c3aed;
+    --et-primary-light: #a78bfa;
+    --et-primary-dark: #5b21b6;
+    --et-accent: #f43f5e;
+    --et-accent-hover: #e11d48;
+
+    --et-bg: #0c0a1d;
+    --et-bg-secondary: #151030;
+    --et-bg-card: rgba(255, 255, 255, 0.04);
+    --et-bg-card-hover: rgba(255, 255, 255, 0.08);
+    --et-bg-content: rgba(255, 255, 255, 0.06);
+
+    --et-text: #cbd5e1;
+    --et-text-muted: #64748b;
+    --et-text-heading: #f1f5f9;
+
+    --et-border: rgba(255, 255, 255, 0.08);
+    --et-border-hover: rgba(255, 255, 255, 0.16);
+
+    --et-glow: rgba(124, 58, 237, 0.35);
+    --et-success: #10b981;
+    --et-warning: #f59e0b;
+    --et-error: #ef4444;
+    --et-info: #3b82f6;
+
+    --et-font: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+    --et-radius: 16px;
+    --et-radius-lg: 24px;
+    --et-radius-sm: 10px;
+    --et-transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* === Base === */
+* { box-sizing: border-box; }
+
+body.et-dark {
+    font-family: var(--et-font);
+    background: var(--et-bg);
+    color: var(--et-text);
+    margin: 0;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+body.et-dark::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+        radial-gradient(ellipse 80% 60% at 15% 50%, rgba(124, 58, 237, 0.12) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 85% 20%, rgba(99, 102, 241, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse 70% 40% at 50% 90%, rgba(59, 130, 246, 0.06) 0%, transparent 50%);
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* === Glass Card === */
+.glass {
+    background: var(--et-bg-card);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--et-border);
+    border-radius: var(--et-radius);
+    transition: all var(--et-transition);
+}
+
+.glass:hover {
+    background: var(--et-bg-card-hover);
+    border-color: var(--et-border-hover);
+}
+
+.glass-card {
+    background: var(--et-bg-card);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--et-border);
+    border-radius: var(--et-radius-lg);
+    transition: all var(--et-transition);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+}
+
+.glass-card:hover {
+    background: var(--et-bg-card-hover);
+    border-color: var(--et-border-hover);
+    transform: translateY(-6px);
+    box-shadow:
+        0 25px 50px rgba(0, 0, 0, 0.4),
+        0 0 40px var(--et-glow);
+}
+
+.glass-card:focus-within {
+    outline: 2px solid var(--et-primary-light);
+    outline-offset: 2px;
+}
+
+/* === Glass Content Box (for sub-pages) === */
+.glass-content {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--et-border);
+    border-radius: var(--et-radius);
+}
+
+/* === Icon Circle === */
+.icon-circle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 72px;
+    height: 72px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+    transition: all var(--et-transition);
+}
+
+.glass-card:hover .icon-circle {
+    transform: scale(1.08);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+/* === Buttons === */
+.et-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px 28px;
+    border-radius: 14px;
+    font-weight: 700;
+    font-size: 1rem;
+    font-family: var(--et-font);
+    border: none;
+    cursor: pointer;
+    transition: all var(--et-transition);
+    text-decoration: none;
+    line-height: 1.2;
+}
+
+.et-btn-primary {
+    background: linear-gradient(135deg, var(--et-primary) 0%, var(--et-primary-dark) 100%);
+    color: white;
+    box-shadow: 0 4px 20px var(--et-glow);
+}
+
+.et-btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px var(--et-glow);
+    filter: brightness(1.1);
+}
+
+.et-btn-accent {
+    background: linear-gradient(135deg, var(--et-accent), #be123c);
+    color: white;
+    box-shadow: 0 4px 20px rgba(244, 63, 94, 0.3);
+}
+
+.et-btn-accent:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(244, 63, 94, 0.4);
+}
+
+.et-btn-ghost {
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--et-text);
+    border: 1px solid var(--et-border);
+}
+
+.et-btn-ghost:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: var(--et-border-hover);
+}
+
+/* === Home Button (sub-pages) === */
+.et-home-btn {
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    z-index: 50;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
+    color: rgba(255, 255, 255, 0.85);
+    font-weight: 500;
+    font-size: 14px;
+    text-decoration: none;
+    transition: all var(--et-transition);
+}
+
+.et-home-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+/* === Footer === */
+.et-footer {
+    background: rgba(0, 0, 0, 0.3);
+    border-top: 1px solid var(--et-border);
+    color: var(--et-text-muted);
+    text-align: center;
+    padding: 28px 16px;
+    font-size: 14px;
+}
+
+/* === Section Header === */
+.et-section-title {
+    color: var(--et-text-heading);
+    font-weight: 800;
+    margin-bottom: 8px;
+}
+
+.et-section-subtitle {
+    color: var(--et-text-muted);
+}
+
+/* === Info Card (benchmarks, rules) === */
+.et-info-card {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--et-border);
+    border-radius: var(--et-radius-sm);
+    padding: 20px;
+    transition: all var(--et-transition);
+}
+
+.et-info-card:hover {
+    background: rgba(255, 255, 255, 0.06);
+}
+
+/* === Rules Box === */
+.et-rules-box {
+    background: rgba(124, 58, 237, 0.08);
+    border: 1px solid rgba(124, 58, 237, 0.2);
+    border-radius: var(--et-radius-sm);
+    padding: 20px;
+}
+
+.et-rules-box li {
+    color: var(--et-text);
+    margin-bottom: 4px;
+}
+
+/* === Result Section === */
+.et-result-card {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--et-border);
+    border-radius: var(--et-radius);
+    padding: 24px;
+}
+
+/* === Progress Bar === */
+.et-progress-bar {
+    width: 100%;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 10px 0;
+}
+
+.et-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--et-primary), var(--et-primary-light));
+    border-radius: 4px;
+    transition: width 0.3s ease;
+}
+
+/* === Share Buttons === */
+.et-share-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-weight: 600;
+    font-size: 14px;
+    font-family: var(--et-font);
+    border: none;
+    cursor: pointer;
+    transition: all var(--et-transition);
+    color: white;
+}
+
+.et-share-btn:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.1);
+}
+
+.et-share-kakao { background: #FEE500; color: #3C1E1E; }
+.et-share-facebook { background: #1877F2; }
+.et-share-instagram { background: linear-gradient(45deg, #833AB4, #C13584, #E1306C); }
+.et-share-link {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* === Game Container (bright inner area for gameplay) === */
+.et-game-area {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+/* === Level Indicator (reused across tests) === */
+.et-level-indicator {
+    position: relative;
+    width: 100%;
+    height: 20px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    margin: 60px 0 80px 0;
+}
+
+.et-level-progress {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    background: linear-gradient(90deg, var(--et-success), var(--et-info), var(--et-error));
+    border-radius: 10px;
+    transition: width 0.8s ease-out;
+    overflow: hidden;
+}
+
+/* === Comparison Table === */
+.et-table {
+    width: 100%;
+    font-size: 14px;
+    border-collapse: collapse;
+}
+
+.et-table thead tr {
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.et-table th, .et-table td {
+    padding: 10px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--et-border);
+    color: var(--et-text);
+}
+
+.et-table th {
+    font-weight: 600;
+    color: var(--et-text-heading);
+}
+
+/* === Animations === */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes glow-pulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fadeInUp { animation: fadeInUp 0.6s ease-out both; }
+.animate-fadeInUp-1 { animation: fadeInUp 0.6s ease-out 0.1s both; }
+.animate-fadeInUp-2 { animation: fadeInUp 0.6s ease-out 0.2s both; }
+.animate-fadeInUp-3 { animation: fadeInUp 0.6s ease-out 0.3s both; }
+.animate-fadeInUp-4 { animation: fadeInUp 0.6s ease-out 0.4s both; }
+.animate-float { animation: float 6s ease-in-out infinite; }
+
+/* === Accessibility === */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+*:focus-visible {
+    outline: 2px solid var(--et-primary-light);
+    outline-offset: 2px;
+}
+
+/* === Responsive === */
+@media (max-width: 768px) {
+    .icon-circle {
+        width: 60px;
+        height: 60px;
+        border-radius: 16px;
+    }
+
+    .et-home-btn {
+        top: 10px;
+        left: 10px;
+        padding: 8px 14px;
+        font-size: 13px;
+    }
+
+    .et-btn {
+        padding: 12px 20px;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .icon-circle {
+        width: 52px;
+        height: 52px;
+        border-radius: 14px;
+    }
+
+    .icon-circle i {
+        font-size: 1.5rem !important;
+    }
+}
+
+/* === Utility === */
+.hidden { display: none !important; }
+.text-glow { text-shadow: 0 0 20px var(--et-glow); }

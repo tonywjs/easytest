@@ -1,8 +1,4 @@
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f0f2f5;
-  color: #333;
-}
+/* body styles removed - handled by common.css et-dark */
 
 .game-container {
   position: relative;
@@ -31,7 +27,7 @@ body {
 .progress-bar {
   width: 100%;
   height: 10px;
-  background-color: #e0e0e0;
+  background-color: rgba(255, 255, 255, 0.08);
   border-radius: 5px;
   overflow: hidden;
   margin: 10px 0;
@@ -63,7 +59,7 @@ body {
   position: relative;
   width: 100%;
   height: 20px;
-  background-color: #e0e0e0;
+  background-color: rgba(255, 255, 255, 0.08);
   border-radius: 10px;
   margin: 60px 0 80px 0;
 }
@@ -107,11 +103,11 @@ body {
   white-space: nowrap;
   font-size: 13px;
   font-weight: bold;
-  color: #374151;
-  background-color: rgba(255, 255, 255, 0.9);
+  color: #cbd5e1;
+  background-color: rgba(255, 255, 255, 0.06);
   padding: 2px 6px;
   border-radius: 4px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
 #userLevelMarker {
@@ -204,22 +200,22 @@ body {
   .game-container {
     height: 320px;
   }
-  
+
   .level-indicator {
     margin: 50px 0 70px 0;
   }
-  
+
   .level-marker:after {
     font-size: 11px;
     top: -35px;
     padding: 1px 4px;
   }
-  
+
   #userLevelMarker:after {
     bottom: -40px;
   }
-  
+
   .color-test {
     font-size: 1.2rem;
   }
-} 
+}

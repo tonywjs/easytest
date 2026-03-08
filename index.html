@@ -9,290 +9,313 @@
     <meta name="description" content="반응속도, 기억력 등 다양한 능력을 테스트하고 다른 사람들과 비교해보세요!">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="css/common.css" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700;800&display=swap');
-
-        * { box-sizing: border-box; }
-
-        body {
-            font-family: 'Noto Sans KR', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            margin: 0;
+        /* === Hero === */
+        .hero-title {
+            font-size: clamp(3rem, 8vw, 5rem);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
         }
 
-        .test-card {
-            transition: transform 0.25s ease, box-shadow 0.25s ease;
-            backdrop-filter: blur(10px);
-            background: rgba(255, 255, 255, 0.95);
-            cursor: pointer;
+        .hero-accent {
+            background: linear-gradient(135deg, var(--et-accent), #fb7185);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 20px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 100px;
+            color: var(--et-primary-light);
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 24px;
+        }
+
+        .hero-badge .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--et-success);
+            animation: glow-pulse 2s ease-in-out infinite;
+        }
+
+        /* === Section === */
+        .section-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--et-accent);
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 12px;
+        }
+
+        /* === Card Detail Row === */
+        .card-detail {
             display: flex;
-            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            color: var(--et-text-muted);
+            font-size: 14px;
+            padding: 6px 0;
         }
 
-        .test-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        .card-detail i {
+            width: 18px;
+            text-align: center;
+            flex-shrink: 0;
         }
 
-        .test-card:focus-within {
-            outline: 3px solid #fbbf24;
-            outline-offset: 2px;
-        }
-
-        .btn-primary {
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            cursor: pointer;
+        /* === Card CTA === */
+        .card-cta {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 14px 24px;
+            background: linear-gradient(135deg, var(--et-primary), var(--et-primary-dark));
+            color: white;
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 15px;
             text-decoration: none;
+            transition: all var(--et-transition);
+            box-shadow: 0 4px 20px var(--et-glow);
+            margin-top: auto;
         }
 
-        .btn-primary:hover {
+        .card-cta:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 8px 30px var(--et-glow);
+            filter: brightness(1.1);
         }
 
-        .btn-primary:focus {
-            outline: 3px solid #fbbf24;
-            outline-offset: 2px;
+        /* === Footer Links === */
+        .footer-link {
+            color: var(--et-text-muted);
+            text-decoration: none;
+            transition: color 0.2s;
         }
 
-        .floating {
-            animation: floating 6s ease-in-out infinite;
+        .footer-link:hover {
+            color: var(--et-primary-light);
         }
 
-        @keyframes floating {
-            0% { transform: translate(0, 0px); }
-            50% { transform: translate(0, -10px); }
-            100% { transform: translate(0, 0px); }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            .floating { animation: none; }
-            .test-card, .btn-primary { transition: none; }
-        }
-
-        /* 카드 내부 콘텐츠 영역 자동 확장 */
-        .test-card .space-y-3 { flex: 1; }
+        /* === Grid stagger animation === */
+        .card-stagger:nth-child(1) { animation-delay: 0.1s; }
+        .card-stagger:nth-child(2) { animation-delay: 0.2s; }
+        .card-stagger:nth-child(3) { animation-delay: 0.3s; }
+        .card-stagger:nth-child(4) { animation-delay: 0.4s; }
+        .card-stagger:nth-child(5) { animation-delay: 0.5s; }
     </style>
 </head>
-<body>
-    <div class="min-h-screen">
-        <!-- 헤더 -->
-        <header class="text-center py-16 px-4">
-            <div class="floating">
-                <h1 class="text-5xl font-bold text-white mb-4" data-i18n="mainTitle">
-                    Easy<span class="text-yellow-300">Test</span>
+<body class="et-dark">
+    <div class="min-h-screen flex flex-col">
+        <!-- Hero -->
+        <header class="text-center pt-24 pb-16 px-4">
+            <div class="animate-float">
+                <div class="hero-badge">
+                    <span class="dot"></span>
+                    <span data-i18n="mainDescription">간단하고 재미있는 다양한 테스트를 경험해보세요</span>
+                </div>
+                <h1 class="hero-title text-white mb-6" data-i18n="mainTitle">
+                    Easy<span class="hero-accent">Test</span>
                 </h1>
-                <p class="text-xl text-gray-200 mb-2" data-i18n="mainSubtitle">당신의 능력을 테스트하고 다른 사람들과 비교해보세요!</p>
-                <p class="text-gray-300" data-i18n="mainDescription">간단하고 재미있는 다양한 테스트를 경험해보세요</p>
+                <p class="text-lg text-gray-400 max-w-xl mx-auto" data-i18n="mainSubtitle">당신의 능력을 테스트하고 다른 사람들과 비교해보세요!</p>
             </div>
         </header>
 
-        <!-- 메인 컨텐츠 -->
-        <div class="container mx-auto px-4 pb-8">
-            <!-- 현재 이용 가능한 테스트 -->
-            <div class="mb-12">
-                <h2 class="text-3xl font-bold text-white text-center mb-12">
-                    <i class="fas fa-fire text-yellow-300 mr-3"></i><span data-i18n="availableTests">이용 가능한 테스트</span>
-                </h2>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <!-- Test Cards -->
+        <main class="flex-1">
+            <div class="container mx-auto px-4 pb-16">
+                <div class="text-center mb-12">
+                    <span class="section-label">
+                        <i class="fas fa-fire"></i>
+                        <span data-i18n="availableTests">이용 가능한 테스트</span>
+                    </span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
                     <!-- 반응속도 테스트 -->
-                    <div class="test-card rounded-xl p-8 shadow-lg">
+                    <div class="glass-card p-8 card-stagger animate-fadeInUp">
                         <div class="text-center mb-6">
-                            <div class="inline-block p-4 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full mb-4">
-                                <i class="fas fa-bolt text-4xl text-white"></i>
+                            <div class="icon-circle" style="background: linear-gradient(135deg, #fbbf24, #f97316);">
+                                <i class="fas fa-bolt text-3xl text-white"></i>
                             </div>
-                            <h3 class="text-2xl font-bold text-gray-800 mb-2" data-i18n="reactionTest">반응속도 테스트</h3>
-                            <p class="text-gray-600" data-i18n="reactionDesc">빨간색에서 초록색으로 변할 때 얼마나 빠르게 반응할 수 있나요?</p>
+                            <h3 class="text-xl font-bold text-white mb-2" data-i18n="reactionTest">반응속도 테스트</h3>
+                            <p class="text-sm text-gray-400" data-i18n="reactionDesc">빨간색에서 초록색으로 변할 때 얼마나 빠르게 반응할 수 있나요?</p>
                         </div>
-                        
-                        <div class="space-y-3 mb-8">
-                            <div class="flex items-center text-gray-700">
-                                <i class="fas fa-clock text-indigo-500 w-5 mr-3"></i>
+
+                        <div class="space-y-1 mb-8 flex-1">
+                            <div class="card-detail">
+                                <i class="fas fa-clock text-purple-400"></i>
                                 <span><span data-i18n="duration">소요시간</span>: <span data-i18n="reactionDuration">약 1분</span></span>
                             </div>
-                            <div class="flex items-center text-gray-700">
-                                <i class="fas fa-gamepad text-indigo-500 w-5 mr-3"></i>
+                            <div class="card-detail">
+                                <i class="fas fa-gamepad text-purple-400"></i>
                                 <span data-i18n="reactionInstruction">화면이 초록색으로 바뀌면 클릭</span>
                             </div>
-                            <div class="flex items-center text-gray-700">
-                                <i class="fas fa-chart-bar text-indigo-500 w-5 mr-3"></i>
+                            <div class="card-detail">
+                                <i class="fas fa-chart-bar text-purple-400"></i>
                                 <span data-i18n="reactionAnalysis">프로게이머와 비교 분석</span>
                             </div>
                         </div>
-                        
-                        <a href="./reactiontest/" class="btn-primary block w-full text-center text-white py-3 px-6 rounded-lg font-bold text-lg">
-                            <span data-i18n="startTest">테스트 시작하기</span> <i class="fas fa-arrow-right ml-2"></i>
-                        </a>
-                    </div>
 
-                    <!-- 기억력 테스트 (리뉴얼 중으로 임시 비활성화) -->
-                    <!--
-                    <div class="test-card rounded-xl p-8 shadow-lg">
-                        <div class="text-center mb-6">
-                            <div class="inline-block p-4 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full mb-4">
-                                <i class="fas fa-brain text-4xl text-white"></i>
-                            </div>
-                            <h3 class="text-2xl font-bold text-gray-800 mb-2">기억력 테스트</h3>
-                            <p class="text-gray-600">당신의 기억력은 상위 몇 %일까요?</p>
-                        </div>
-                        
-                        <div class="space-y-3 mb-8">
-                            <div class="flex items-center text-gray-700">
-                                <i class="fas fa-clock text-purple-500 w-5 mr-3"></i>
-                                <span>소요시간: 약 2분</span>
-                            </div>
-                            <div class="flex items-center text-gray-700">
-                                <i class="fas fa-images text-purple-500 w-5 mr-3"></i>
-                                <span>이미지, 숫자, 단어 기억 테스트</span>
-                            </div>
-                            <div class="flex items-center text-gray-700">
-                                <i class="fas fa-trophy text-purple-500 w-5 mr-3"></i>
-                                <span>전체 사용자 순위 확인</span>
-                            </div>
-                        </div>
-                        
-                        <a href="./memory/" class="btn-primary block w-full text-center text-white py-3 px-6 rounded-lg font-bold text-lg">
-                            테스트 시작하기 <i class="fas fa-arrow-right ml-2"></i>
+                        <a href="./reactiontest/" class="card-cta">
+                            <span data-i18n="startTest">테스트 시작하기</span>
+                            <i class="fas fa-arrow-right"></i>
                         </a>
                     </div>
-                    -->
 
                     <!-- 숫자계산 테스트 -->
-                    <div class="test-card rounded-xl p-8 shadow-lg">
+                    <div class="glass-card p-8 card-stagger animate-fadeInUp">
                         <div class="text-center mb-6">
-                            <div class="inline-block p-4 bg-gradient-to-r from-yellow-600 to-yellow-400 rounded-full mb-4">
-                                <i class="fas fa-leaf text-4xl text-white"></i>
+                            <div class="icon-circle" style="background: linear-gradient(135deg, #f97316, #eab308);">
+                                <i class="fas fa-leaf text-3xl text-white"></i>
                             </div>
-                            <h3 class="text-2xl font-bold text-gray-800 mb-2" data-i18n="numberTest">숫자계산 테스트<br>(곶감게임)</h3>
-                            <p class="text-gray-600" data-i18n="numberDesc">합이 10이 되는 곶감을 선택하는 퍼즐게임!</p>
+                            <h3 class="text-xl font-bold text-white mb-2" data-i18n="numberTest">숫자계산 테스트<br>(곶감게임)</h3>
+                            <p class="text-sm text-gray-400" data-i18n="numberDesc">합이 10이 되는 곶감을 선택하는 퍼즐게임!</p>
                         </div>
-                        
-                        <div class="space-y-3 mb-8">
-                            <div class="flex items-center text-gray-700">
-                                <i class="fas fa-clock w-5 mr-3" style="color: #ea580c;"></i>
+
+                        <div class="space-y-1 mb-8 flex-1">
+                            <div class="card-detail">
+                                <i class="fas fa-clock text-orange-400"></i>
                                 <span><span data-i18n="duration">소요시간</span>: <span data-i18n="numberDuration">1-3분</span></span>
                             </div>
-                            <div class="flex items-center text-gray-700">
-                                <i class="fas fa-puzzle-piece w-5 mr-3" style="color: #ea580c;"></i>
+                            <div class="card-detail">
+                                <i class="fas fa-puzzle-piece text-orange-400"></i>
                                 <span data-i18n="numberDrag">드래그로 사각형 선택하여 제거</span>
                             </div>
-                            <div class="flex items-center text-gray-700">
-                                <i class="fas fa-trophy w-5 mr-3" style="color: #ea580c;"></i>
+                            <div class="card-detail">
+                                <i class="fas fa-trophy text-orange-400"></i>
                                 <span data-i18n="numberPuzzle">두뇌 퍼즐게임</span>
                             </div>
                         </div>
-                        
-                        <a href="./numbertest/" class="btn-primary block w-full text-center text-white py-3 px-6 rounded-lg font-bold text-lg">
-                            <span data-i18n="startTest">테스트 시작하기</span> <i class="fas fa-arrow-right ml-2"></i>
+
+                        <a href="./numbertest/" class="card-cta">
+                            <span data-i18n="startTest">테스트 시작하기</span>
+                            <i class="fas fa-arrow-right"></i>
                         </a>
                     </div>
 
                     <!-- 타이핑 테스트 -->
-                    <div class="test-card rounded-xl p-8 shadow-lg">
+                    <div class="glass-card p-8 card-stagger animate-fadeInUp">
                         <div class="text-center mb-6">
-                            <div class="inline-block p-4 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full mb-4">
-                                <i class="fas fa-keyboard text-4xl text-white"></i>
+                            <div class="icon-circle" style="background: linear-gradient(135deg, #3b82f6, #06b6d4);">
+                                <i class="fas fa-keyboard text-3xl text-white"></i>
                             </div>
-                            <h3 class="text-2xl font-bold text-gray-800 mb-2" data-i18n="typingTest">타이핑 테스트</h3>
-                            <p class="text-gray-600" data-i18n="typingDesc">당신의 타이핑 속도와 정확도를 측정해보세요!</p>
+                            <h3 class="text-xl font-bold text-white mb-2" data-i18n="typingTest">타이핑 테스트</h3>
+                            <p class="text-sm text-gray-400" data-i18n="typingDesc">당신의 타이핑 속도와 정확도를 측정해보세요!</p>
                         </div>
-                        
-                        <div class="space-y-3 mb-8">
-                            <div class="flex items-center text-gray-700">
-                                <i class="fas fa-clock text-blue-500 w-5 mr-3"></i>
+
+                        <div class="space-y-1 mb-8 flex-1">
+                            <div class="card-detail">
+                                <i class="fas fa-clock text-blue-400"></i>
                                 <span><span data-i18n="duration">소요시간</span>: <span data-i18n="typingDuration">약 1-2분</span></span>
                             </div>
-                            <div class="flex items-center text-gray-700">
-                                <i class="fas fa-tachometer-alt text-blue-500 w-5 mr-3"></i>
+                            <div class="card-detail">
+                                <i class="fas fa-tachometer-alt text-blue-400"></i>
                                 <span data-i18n="typingSpeed">타이핑 속도 및 정확도 측정</span>
                             </div>
-                            <div class="flex items-center text-gray-700">
-                                <i class="fas fa-chart-line text-blue-500 w-5 mr-3"></i>
+                            <div class="card-detail">
+                                <i class="fas fa-chart-line text-blue-400"></i>
                                 <span data-i18n="typingWPM">WPM 속도 분석 및 비교</span>
                             </div>
                         </div>
-                        
-                        <a href="./typingtest/" class="btn-primary block w-full text-center text-white py-3 px-6 rounded-lg font-bold text-lg">
-                            <span data-i18n="startTest">테스트 시작하기</span> <i class="fas fa-arrow-right ml-2"></i>
+
+                        <a href="./typingtest/" class="card-cta">
+                            <span data-i18n="startTest">테스트 시작하기</span>
+                            <i class="fas fa-arrow-right"></i>
                         </a>
                     </div>
 
                     <!-- 에임테스트 -->
-                    <div class="test-card rounded-xl p-8 shadow-lg">
+                    <div class="glass-card p-8 card-stagger animate-fadeInUp">
                         <div class="text-center mb-6">
-                            <div class="inline-block p-4 bg-gradient-to-r from-red-500 to-pink-500 rounded-full mb-4">
-                                <i class="fas fa-crosshairs text-4xl text-white"></i>
+                            <div class="icon-circle" style="background: linear-gradient(135deg, #ef4444, #ec4899);">
+                                <i class="fas fa-crosshairs text-3xl text-white"></i>
                             </div>
-                            <h3 class="text-2xl font-bold text-gray-800 mb-2" data-i18n="aimTest">에임테스트</h3>
-                            <p class="text-gray-600" data-i18n="aimDesc">화면에 나타나는 목표물을 얼마나 빠르게 클릭할 수 있나요?</p>
+                            <h3 class="text-xl font-bold text-white mb-2" data-i18n="aimTest">에임테스트</h3>
+                            <p class="text-sm text-gray-400" data-i18n="aimDesc">화면에 나타나는 목표물을 얼마나 빠르게 클릭할 수 있나요?</p>
                         </div>
-                        
-                        <div class="space-y-3 mb-8">
-                            <div class="flex items-center text-gray-700">
-                                <i class="fas fa-clock text-red-500 w-5 mr-3"></i>
+
+                        <div class="space-y-1 mb-8 flex-1">
+                            <div class="card-detail">
+                                <i class="fas fa-clock text-red-400"></i>
                                 <span><span data-i18n="duration">소요시간</span>: <span data-i18n="aimDuration">약 1분</span></span>
                             </div>
-                            <div class="flex items-center text-gray-700">
-                                <i class="fas fa-bullseye text-red-500 w-5 mr-3"></i>
+                            <div class="card-detail">
+                                <i class="fas fa-bullseye text-red-400"></i>
                                 <span data-i18n="aimTarget">랜덤 위치 타겟 클릭</span>
                             </div>
-                            <div class="flex items-center text-gray-700">
-                                <i class="fas fa-chart-line text-red-500 w-5 mr-3"></i>
+                            <div class="card-detail">
+                                <i class="fas fa-chart-line text-red-400"></i>
                                 <span data-i18n="aimAccuracy">정확도와 반응속도 측정</span>
                             </div>
                         </div>
-                        
-                        <a href="./aimtest/" class="btn-primary block w-full text-center text-white py-3 px-6 rounded-lg font-bold text-lg">
-                            <span data-i18n="startTest">테스트 시작하기</span> <i class="fas fa-arrow-right ml-2"></i>
+
+                        <a href="./aimtest/" class="card-cta">
+                            <span data-i18n="startTest">테스트 시작하기</span>
+                            <i class="fas fa-arrow-right"></i>
                         </a>
                     </div>
 
                     <!-- 패턴기억테스트 -->
-                    <div class="test-card rounded-xl p-8 shadow-lg">
+                    <div class="glass-card p-8 card-stagger animate-fadeInUp">
                         <div class="text-center mb-6">
-                            <div class="inline-block p-4 bg-gradient-to-r from-green-500 to-teal-500 rounded-full mb-4">
-                                <i class="fas fa-lightbulb text-4xl text-white"></i>
+                            <div class="icon-circle" style="background: linear-gradient(135deg, #10b981, #14b8a6);">
+                                <i class="fas fa-lightbulb text-3xl text-white"></i>
                             </div>
-                            <h3 class="text-2xl font-bold text-gray-800 mb-2" data-i18n="patternTest">패턴기억테스트</h3>
-                            <p class="text-gray-600" data-i18n="patternDesc">불이 켜진 박스를 얼마나 빠르게 찾을 수 있나요?</p>
+                            <h3 class="text-xl font-bold text-white mb-2" data-i18n="patternTest">패턴기억테스트</h3>
+                            <p class="text-sm text-gray-400" data-i18n="patternDesc">불이 켜진 박스를 얼마나 빠르게 찾을 수 있나요?</p>
                         </div>
-                        
-                        <div class="space-y-3 mb-8">
-                            <div class="flex items-center text-gray-700">
-                                <i class="fas fa-clock text-green-500 w-5 mr-3"></i>
+
+                        <div class="space-y-1 mb-8 flex-1">
+                            <div class="card-detail">
+                                <i class="fas fa-clock text-green-400"></i>
                                 <span><span data-i18n="duration">소요시간</span>: <span data-i18n="patternDuration">약 2분</span></span>
                             </div>
-                            <div class="flex items-center text-gray-700">
-                                <i class="fas fa-th text-green-500 w-5 mr-3"></i>
+                            <div class="card-detail">
+                                <i class="fas fa-th text-green-400"></i>
                                 <span data-i18n="patternGrid">3x3 그리드 패턴 기억</span>
                             </div>
-                            <div class="flex items-center text-gray-700">
-                                <i class="fas fa-brain text-green-500 w-5 mr-3"></i>
+                            <div class="card-detail">
+                                <i class="fas fa-brain text-green-400"></i>
                                 <span data-i18n="patternRecognition">패턴 인식 능력 측정</span>
                             </div>
                         </div>
-                        
-                        <a href="./patterntest/" class="btn-primary block w-full text-center text-white py-3 px-6 rounded-lg font-bold text-lg">
-                            <span data-i18n="startTest">테스트 시작하기</span> <i class="fas fa-arrow-right ml-2"></i>
+
+                        <a href="./patterntest/" class="card-cta">
+                            <span data-i18n="startTest">테스트 시작하기</span>
+                            <i class="fas fa-arrow-right"></i>
                         </a>
                     </div>
                 </div>
             </div>
-        </div>
+        </main>
 
-        <!-- 푸터 -->
-        <footer class="bg-black bg-opacity-20 text-white text-center py-8">
+        <!-- Footer -->
+        <footer class="et-footer">
             <div class="container mx-auto px-4">
-                <p class="mb-4" data-i18n="copyright">&copy; 2025 EasyTest.</p>
+                <p data-i18n="copyright">&copy; 2025 EasyTest.</p>
             </div>
         </footer>
     </div>
 
     <!-- 다국어 시스템 로드 -->
     <script src="js/i18n.js"></script>
-    
 </body>
 </html>
