@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>타이핑 속도 테스트</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.5/kakao.min.js" integrity="sha384-dok87au0gKqJdxs7msEdBPNnKSRT+/mhTVzq+qOhcL464zXwvcrpjeWvyj1kCdq6" crossorigin="anonymous"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7637874916831135"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+    <!-- 홈 버튼 -->
+    <div style="position: fixed; top: 16px; left: 16px; z-index: 1000;">
+        <a href="../index.html" style="display: inline-flex; align-items: center; padding: 8px 16px; background: white; color: #374151; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); text-decoration: none; transition: all 0.2s;">
+            <i class="fas fa-home" style="margin-right:4px"></i> <span data-i18n="backToHome">홈으로</span>
+        </a>
+    </div>
+
+    <div class="container">
+        <header>
+            <h1 data-i18n="typingTest">🚀 타이핑 속도 테스트</h1>
+            <p data-i18n="typingDesc">아래 문장을 정확히 타이핑해보세요!</p>
+        </header>
+
+        <main>
+            <div class="stats-container">
+                <div class="stat">
+                    <div class="stat-value" id="wpm">0</div>
+                    <div class="stat-label">WPM</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="accuracy">100</div>
+                    <div class="stat-label" data-i18n="accuracy">정확도(%)</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="timer">0</div>
+                    <div class="stat-label" data-i18n="time">시간(초)</div>
+                </div>
+            </div>
+
+            <div class="text-container">
+                <div id="target-text" class="target-text"></div>
+            </div>
+
+            <div class="input-container">
+                <textarea 
+                    id="typing-input" 
+                    data-i18n="typingPlaceholder"
+                    placeholder="타이핑을 시작하면 자동으로 테스트가 시작됩니다..."
+                ></textarea>
+            </div>
+
+            <div class="controls">
+                <button id="start-btn" class="btn primary" data-i18n="startTest">테스트 시작</button>
+                <button id="reset-btn" class="btn secondary" data-i18n="tryAgain">다시 시작</button>
+                <div id="share-buttons" class="share-buttons" style="display: none;">
+                    <button id="kakao-share-btn" class="btn kakao"><span data-i18n="kakaoShare">카카오톡 공유</span></button>
+                    <button id="facebook-share-btn" class="btn facebook"><span data-i18n="facebookShare">페이스북 공유</span></button>
+                </div>
+            </div>
+
+            <div id="result-container" class="result-container" style="display: none;">
+                <h2 data-i18n="testComplete">🎉 테스트 완료!</h2>
+                <div class="final-stats">
+                    <div class="final-stat">
+                        <span class="label" data-i18n="typingSpeedLabel">타이핑 속도:</span>
+                        <span id="final-wpm" class="value">0 WPM</span>
+                    </div>
+                    <div class="final-stat">
+                        <span class="label" data-i18n="accuracyLabel">정확도:</span>
+                        <span id="final-accuracy" class="value">100%</span>
+                    </div>
+                    <div class="final-stat">
+                        <span class="label" data-i18n="timeLabel">소요 시간:</span>
+                        <span id="final-time" class="value">0초</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="custom-text-container">
+                <label for="custom-text-input" data-i18n="customTestLabel">내 맘대로 테스트</label>
+                <textarea 
+                    id="custom-text-input" 
+                    data-i18n="customTextPlaceholder"
+                    placeholder="원하는 텍스트를 입력하세요 (비워두면 기본 문장 사용)"
+                    rows="3"
+                ></textarea>
+                <button id="apply-custom-text" class="btn secondary" data-i18n="applyText">텍스트 적용</button>
+            </div>
+        </main>
+    </div>
+
+    <!-- 다국어 시스템 로드 -->
+    <script src="../js/i18n.js"></script>
+    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+    <script src="script.js"></script>
+    <!-- 카카오 SDK 초기화 -->
+    <script>
+        // Kakao SDK 초기화
+        try {
+            if (typeof Kakao !== 'undefined' && Kakao) {
+                // 실제 카카오 앱 키로 교체 필요
+                // 카카오 개발자 사이트 (https://developers.kakao.com)에서 앱 등록 후 발급받은 JavaScript 키 사용
+                Kakao.init('eb68697db572e7c6b4abbf70207a69a1'); // 여기에 실제 JavaScript 키를 입력하세요
+                console.log('Kakao SDK 초기화 완료');
+                console.log('Kakao 앱 키 상태:', Kakao.isInitialized());
+            } else {
+                console.log('Kakao SDK가 로드되지 않았습니다');
+            }
+        } catch (e) {
+            console.log('Kakao SDK 초기화 실패:', e);
+        }
+    </script>
+</body>
+</html> 

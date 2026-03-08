@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>당신의 암기력 테스트 - 당신은 상위 몇 %?</title>
+    <meta name="description" content="다양한 이미지, 숫자, 단어를 통해 암기력을 테스트하고 다른 사람들과 비교해보세요. 당신의 암기력은 상위 몇 %일까요?">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7637874916831135"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+    <!-- 홈 버튼 -->
+    <div class="fixed top-4 left-4 z-50">
+        <a href="../index.html" class="inline-flex items-center px-4 py-2 bg-white text-gray-700 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 hover:bg-gray-50">
+            <i class="fas fa-home mr-2"></i>
+            <span>홈으로</span>
+        </a>
+    </div>
+
+    <div class="container mx-auto px-4 py-8 max-w-3xl">
+        <!-- 시작 화면 -->
+        <section id="intro" class="section active text-center py-8">
+            <h1 class="text-4xl font-black mb-6 text-gray-800">당신의 암기력 테스트</h1>
+            <p class="text-xl mb-8">당신의 기억력은 상위 <span class="text-yellow-500 font-bold">몇 %</span>일까요?</p>
+            
+            <div class="flex justify-center space-x-6 mb-10">
+                <div class="text-center">
+                    <div class="emoji-large mb-2">🧠</div>
+                    <p class="text-sm">기억력</p>
+                </div>
+                <div class="text-center">
+                    <div class="emoji-large mb-2">🏆</div>
+                    <p class="text-sm">순위</p>
+                </div>
+                <div class="text-center">
+                    <div class="emoji-large mb-2">📊</div>
+                    <p class="text-sm">통계</p>
+                </div>
+            </div>
+            
+            <p class="mb-10 text-gray-600">
+                짧은 시간 동안 보여주는 이미지, 숫자, 단어를 얼마나 잘 기억하는지 측정합니다.<br>
+                테스트는 약 2분 정도 소요됩니다.
+            </p>
+            
+            <button id="startButton" class="btn text-lg">
+                테스트 시작하기 <i class="fas fa-arrow-right ml-2"></i>
+            </button>
+            
+            <p class="mt-8 text-gray-500 text-sm">
+                이미 <span id="testCount" class="font-bold">15,423</span>명이 테스트를 완료했습니다
+            </p>
+        </section>
+
+        <!-- 테스트 설명 화면 -->
+        <section id="instructions" class="section text-center py-8">
+            <h2 class="text-2xl font-bold mb-6">테스트 방법</h2>
+            
+            <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+                <p class="mb-4">이 테스트는 3가지 유형으로 구성되어 있습니다:</p>
+                
+                <div class="flex justify-between items-center mb-4 border-b pb-3">
+                    <div class="flex items-center">
+                        <div class="text-3xl mr-4">🔢</div>
+                        <span class="font-bold">숫자 기억</span>
+                    </div>
+                    <span class="text-gray-600">짧게 보여주는 숫자 순서를 기억하세요</span>
+                </div>
+                
+                <div class="flex justify-between items-center mb-4 border-b pb-3">
+                    <div class="flex items-center">
+                        <div class="text-3xl mr-4">📝</div>
+                        <span class="font-bold">단어 기억</span>
+                    </div>
+                    <span class="text-gray-600">여러 단어를 보고 기억하세요</span>
+                </div>
+                
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center">
+                        <div class="text-3xl mr-4">🎯</div>
+                        <span class="font-bold">위치 기억</span>
+                    </div>
+                    <span class="text-gray-600">항목의 위치를 기억하세요</span>
+                </div>
+            </div>
+            
+            <p class="mb-8 text-gray-600">
+                집중해서 볼수록 높은 점수를 받을 수 있습니다.<br>
+                테스트 후 당신의 기억력이 상위 몇 %인지 확인해보세요!
+            </p>
+            
+            <button id="startTestButton" class="btn text-lg">
+                이해했어요! 테스트 시작 <i class="fas fa-play ml-2"></i>
+            </button>
+        </section>
+
+        <!-- 숫자 기억 테스트 -->
+        <section id="numberTest" class="section py-8">
+            <div class="progress-container">
+                <div class="progress-bar" id="numberProgress"></div>
+            </div>
+            
+            <h2 class="text-2xl font-bold mb-6 text-center">숫자 기억 테스트</h2>
+            
+            <div id="numberDisplay" class="text-center mb-8">
+                <p class="mb-4">아래 숫자를 기억하세요</p>
+                <div id="numberSequence" class="text-5xl font-bold my-8"></div>
+                <p id="numberTimer" class="text-gray-500"></p>
+            </div>
+            
+            <div id="numberInput" class="text-center hidden">
+                <p class="mb-4">방금 본 숫자를 순서대로 입력하세요</p>
+                <input type="text" id="numberAnswer" class="w-full p-3 border rounded-lg text-xl text-center mb-6" placeholder="숫자를 입력하세요">
+                <button id="submitNumberButton" class="btn">
+                    제출하기 <i class="fas fa-check ml-2"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- 단어 기억 테스트 -->
+        <section id="wordTest" class="section py-8">
+            <div class="progress-container">
+                <div class="progress-bar" id="wordProgress"></div>
+            </div>
+            
+            <h2 class="text-2xl font-bold mb-6 text-center">단어 기억 테스트</h2>
+            
+            <div id="wordDisplay" class="text-center mb-8">
+                <p class="mb-4">아래 단어들을 기억하세요</p>
+                <div id="wordList" class="text-2xl my-8 space-y-3"></div>
+                <p id="wordTimer" class="text-gray-500"></p>
+            </div>
+            
+            <div id="wordSelection" class="hidden">
+                <p class="mb-4 text-center">방금 보았던 단어를 모두 선택하세요</p>
+                <div id="wordOptions" class="grid grid-cols-2 gap-3 mb-6"></div>
+                <div class="text-center">
+                    <button id="submitWordButton" class="btn">
+                        제출하기 <i class="fas fa-check ml-2"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 위치 기억 테스트 -->
+        <section id="positionTest" class="section py-8">
+            <div class="progress-container">
+                <div class="progress-bar" id="positionProgress"></div>
+            </div>
+            
+            <h2 class="text-2xl font-bold mb-6 text-center">위치 기억 테스트</h2>
+            
+            <div id="positionDisplay" class="text-center mb-8">
+                <p class="mb-4">아래 이모지들의 위치를 기억하세요</p>
+                <div id="positionGrid" class="grid grid-cols-3 gap-2 max-w-xs mx-auto my-8"></div>
+                <p id="positionTimer" class="text-gray-500"></p>
+            </div>
+            
+            <div id="positionSelection" class="hidden">
+                <p class="mb-4 text-center">각 이모지가 있었던 위치를 선택하세요</p>
+                <div id="positionQuestion" class="text-center text-5xl mb-4"></div>
+                <div id="positionOptions" class="grid grid-cols-3 gap-2 max-w-xs mx-auto mb-6"></div>
+                <div class="text-center">
+                    <button id="submitPositionButton" class="btn">
+                        제출하기 <i class="fas fa-check ml-2"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 결과 화면 -->
+        <section id="results" class="section py-8">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-black mb-2">테스트 결과</h2>
+                <p class="text-lg text-gray-600">당신의 암기력 분석</p>
+            </div>
+            
+            <div id="resultAnimation" class="text-center mb-10">
+                <div class="emoji-large pulse mb-4">🏆</div>
+                <h3 class="text-2xl font-bold mb-2">축하합니다!</h3>
+                <p id="percentileResult" class="text-xl font-bold text-yellow-500">당신의 기억력은 상위 5%입니다!</p>
+                <p id="geniusComment" class="mt-2">혹시 천재?</p>
+            </div>
+            
+            <div class="result-card">
+                <h4 class="font-bold text-lg">종합 기억력 점수</h4>
+                <div class="flex items-center">
+                    <div class="text-3xl font-black mr-2" id="overallScore">92</div>
+                    <div class="text-sm text-gray-500">/ 100</div>
+                </div>
+                <div class="gauge">
+                    <div class="gauge-fill" id="overallGauge" style="width: 92%;"></div>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                <div class="bg-white p-4 rounded-lg shadow-sm">
+                    <div class="text-center">
+                        <div class="text-3xl mb-2">🔢</div>
+                        <h5 class="font-bold">숫자 기억</h5>
+                        <div class="text-2xl font-bold text-yellow-500" id="numberScore">90%</div>
+                    </div>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm">
+                    <div class="text-center">
+                        <div class="text-3xl mb-2">📝</div>
+                        <h5 class="font-bold">단어 기억</h5>
+                        <div class="text-2xl font-bold text-yellow-500" id="wordScore">85%</div>
+                    </div>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm">
+                    <div class="text-center">
+                        <div class="text-3xl mb-2">🎯</div>
+                        <h5 class="font-bold">위치 기억</h5>
+                        <div class="text-2xl font-bold text-yellow-500" id="positionScore">95%</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="result-card mb-8">
+                <h4 class="font-bold text-lg mb-3">나이대별 비교</h4>
+                <p class="mb-2 text-sm">당신의 나이대 평균 점수: <span class="font-bold text-gray-700" id="ageAverage">68점</span></p>
+                <p class="text-sm text-yellow-600 font-bold mb-3" id="ageComparison">당신은 나이대 평균보다 35% 높습니다</p>
+                
+                <div class="text-xs text-gray-500 flex justify-between mb-1">
+                    <span>0</span>
+                    <span>50</span>
+                    <span>100</span>
+                </div>
+                <div class="gauge">
+                    <div class="gauge-fill" id="ageGauge" style="width: 68%;"></div>
+                </div>
+                <div class="text-xs text-gray-500 mt-1">
+                    나이대 평균
+                </div>
+            </div>
+            
+            <div class="bg-blue-50 p-5 rounded-lg mb-8">
+                <h4 class="font-bold text-lg mb-3">기억력 향상을 위한 팁</h4>
+                <ul class="text-sm space-y-2">
+                    <li>⭐ 충분한 수면을 취하세요 (7-9시간)</li>
+                    <li>⭐ 규칙적인 운동을 하세요</li>
+                    <li>⭐ 두뇌를 자극하는 활동을 꾸준히 하세요</li>
+                    <li>⭐ 명상과 스트레스 관리를 실천하세요</li>
+                    <li>⭐ 오메가-3가 풍부한 음식을 섭취하세요</li>
+                </ul>
+            </div>
+            
+            <!-- 공유 버튼 -->
+            <div class="text-center mb-8">
+                <p class="mb-4 font-bold">친구들에게 공유하고 도전시켜 보세요!</p>
+                <div class="flex justify-center space-x-3">
+                    <button class="kakao-share-button p-3 rounded-full" onclick="shareKakao()">
+                        <i class="fas fa-comment text-xl"></i>
+                    </button>
+                    <button class="bg-blue-500 text-white p-3 rounded-full" onclick="shareTwitter()">
+                        <i class="fab fa-twitter text-xl"></i>
+                    </button>
+                    <button class="bg-blue-800 text-white p-3 rounded-full" onclick="shareFacebook()">
+                        <i class="fab fa-facebook-f text-xl"></i>
+                    </button>
+                    <button class="bg-green-500 text-white p-3 rounded-full" onclick="shareLink()">
+                        <i class="fas fa-link text-xl"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <button id="retryButton" class="btn w-full mb-8">
+                다시 테스트하기 <i class="fas fa-redo ml-2"></i>
+            </button>
+        </section>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 
