@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>색각 테스트 - Color Vision Test</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="../css/common.css" rel="stylesheet">
+  <link href="styles.css" rel="stylesheet">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7637874916831135"
+     crossorigin="anonymous"></script>
+  <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.5/kakao.min.js" integrity="sha384-dok87au0gKqJdxs7msEdBPNnKSRT+/mhTVzq+qOhcL464zXwvcrpjeWvyj1kCdq6" crossorigin="anonymous"></script>
+</head>
+<body class="et-dark">
+  <!-- 홈 버튼 -->
+  <a href="../index.html" class="et-home-btn">
+    <i class="fas fa-home"></i>
+    <span data-i18n="backToHome">홈으로</span>
+  </a>
+
+  <div class="container mx-auto px-4 pt-14 pb-8 max-w-4xl">
+    <!-- 인트로 화면 -->
+    <div id="introSection" class="glass-content p-6 rounded-lg mb-8">
+      <div class="text-center mb-6">
+        <div class="icon-circle" style="background: linear-gradient(135deg, #06b6d4, #8b5cf6);">
+          <i class="fas fa-eye text-3xl text-white"></i>
+        </div>
+        <h2 class="text-2xl font-bold mb-2 text-white" data-i18n="colorIntroTitle">색각 테스트</h2>
+        <p class="text-gray-400 mb-4" data-i18n="colorIntroDesc">미세한 색상 차이를 구별하는 당신의 색각 능력을 테스트하세요!</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+        <div class="et-info-card">
+          <div class="text-center">
+            <i class="fas fa-crown text-3xl text-amber-400 mb-2"></i>
+            <h3 class="font-bold text-white" data-i18n="colorExpert">전문가</h3>
+            <p class="text-xl font-semibold text-gray-300">Level 16-20</p>
+          </div>
+        </div>
+        <div class="et-info-card">
+          <div class="text-center">
+            <i class="fas fa-user text-3xl text-blue-400 mb-2"></i>
+            <h3 class="font-bold text-white" data-i18n="colorAverage">보통</h3>
+            <p class="text-xl font-semibold text-gray-300">Level 8-15</p>
+          </div>
+        </div>
+        <div class="et-info-card">
+          <div class="text-center">
+            <i class="fas fa-seedling text-3xl text-green-400 mb-2"></i>
+            <h3 class="font-bold text-white" data-i18n="colorBeginner">초보</h3>
+            <p class="text-xl font-semibold text-gray-300">Level 1-7</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="et-rules-box mb-6">
+        <h3 class="font-bold mb-2 text-purple-300"><i class="fas fa-info-circle mr-2"></i><span data-i18n="testGuide">테스트 안내</span></h3>
+        <ul class="list-disc list-inside space-y-1">
+          <li data-i18n="colorRule1">격자 안에서 다른 색상의 타일을 찾아 클릭하세요</li>
+          <li data-i18n="colorRule2">레벨이 올라갈수록 색상 차이가 미세해집니다</li>
+          <li data-i18n="colorRule3">총 3개의 생명이 주어집니다</li>
+          <li data-i18n="colorRule4">최대 레벨 20까지 도전할 수 있습니다</li>
+        </ul>
+      </div>
+
+      <div class="text-center">
+        <button id="startTestBtn" class="et-btn et-btn-primary">
+          <span data-i18n="startTest">테스트 시작하기</span> <i class="fas fa-arrow-right"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- 게임 영역 -->
+    <div id="gameSection" class="hidden">
+      <div class="glass-content p-6 rounded-lg mb-8">
+        <div class="flex flex-wrap items-center justify-between mb-4">
+          <div>
+            <span class="text-sm text-gray-400" data-i18n="levelLabel">레벨</span>
+            <span class="font-semibold text-white"><span id="currentLevel">1</span> / 20</span>
+          </div>
+          <div class="lives-display">
+            <span id="livesDisplay"></span>
+          </div>
+        </div>
+
+        <div class="progress-bar">
+          <div id="progressBar" class="progress-fill" style="width: 5%;"></div>
+        </div>
+
+        <div id="colorGrid" class="color-grid mt-6"></div>
+
+        <div id="gameMessage" class="text-center mt-4 text-lg font-semibold"></div>
+      </div>
+    </div>
+
+    <!-- 결과 영역 -->
+    <div id="resultSection" class="hidden">
+      <div class="glass-content p-6 rounded-lg mb-8">
+        <div class="text-center mb-6">
+          <i id="resultIcon" class="fas fa-eye text-5xl text-cyan-400 mb-2"></i>
+          <h2 class="text-2xl font-bold mb-2 text-white" data-i18n="testResult">테스트 결과</h2>
+          <p class="text-gray-400 mb-2" data-i18n="colorResultLabel">도달 레벨</p>
+          <p id="resultScore" class="text-5xl font-bold text-white"></p>
+        </div>
+
+        <div class="my-8">
+          <h3 class="font-bold mb-2 text-center text-white" data-i18n="yourGrade">당신의 등급</h3>
+          <div class="level-indicator">
+            <div id="levelProgress" class="level-progress" style="width: 0%;"></div>
+            <div class="level-marker text-green-500" style="left: 35%;" data-label="초보" data-i18n-label="colorBeginner"></div>
+            <div class="level-marker text-blue-500" style="left: 65%;" data-label="보통" data-i18n-label="colorAverage"></div>
+            <div class="level-marker text-amber-500" style="left: 90%;" data-label="전문가" data-i18n-label="colorExpert"></div>
+            <div id="userLevelMarker" class="level-marker text-cyan-400" style="left: 0%;" data-label="당신" data-i18n-label="you"></div>
+          </div>
+        </div>
+
+        <!-- 챌린지 섹션 -->
+        <div id="challengeSection" class="mt-6 p-4 glass-content rounded-lg">
+          <h3 class="font-bold mb-2 text-center text-white" data-i18n="challengeFriend">친구에게 도전하기</h3>
+          <p class="text-sm text-gray-400 text-center mb-4" data-i18n="challengeDesc">같은 조건으로 친구에게 도전장을 보내세요!</p>
+          <div class="flex gap-2">
+            <button id="createChallengeBtn" class="et-btn et-btn-accent flex-1">
+              <i class="fas fa-trophy mr-2"></i><span data-i18n="createChallengeLink">도전 링크 만들기</span>
+            </button>
+          </div>
+          <div id="challengeLinkContainer" class="hidden mt-3">
+            <div class="flex gap-2">
+              <input id="challengeLink" type="text" readonly class="flex-1 p-2 rounded bg-white bg-opacity-10 text-white text-sm border border-gray-600">
+              <button id="copyChallengeLink" class="et-btn et-btn-ghost text-sm">
+                <i class="fas fa-copy"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 챌린지 비교 (도전 모드일 때만 표시) -->
+        <div id="challengeComparison" class="hidden mt-6">
+          <h3 class="font-bold mb-4 text-center text-white" data-i18n="challengeResult">도전 결과</h3>
+          <div class="challenge-comparison">
+            <div class="challenge-player">
+              <span class="text-sm text-gray-400" data-i18n="challengeOpponent">상대방</span>
+              <span id="opponentScore" class="text-2xl font-bold text-white">-</span>
+            </div>
+            <div class="challenge-vs">VS</div>
+            <div class="challenge-player">
+              <span class="text-sm text-gray-400" data-i18n="you">당신</span>
+              <span id="myScore" class="text-2xl font-bold text-white">-</span>
+            </div>
+          </div>
+          <p id="challengeResultText" class="text-center mt-4 text-xl font-bold"></p>
+        </div>
+
+        <!-- 공유 버튼 -->
+        <div id="shareContainer" class="mt-8 border-t border-gray-700 pt-6">
+          <h3 class="font-bold mb-4 text-center text-white" data-i18n="shareResult">결과 공유하기</h3>
+          <div class="flex flex-wrap justify-center gap-4 mb-6">
+            <button id="kakaoShare" class="et-share-btn et-share-kakao">
+              <i class="fas fa-comment"></i> <span data-i18n="kakaoTalk">카카오톡</span>
+            </button>
+            <button id="facebookShare" class="et-share-btn et-share-facebook">
+              <i class="fab fa-facebook-f"></i> <span data-i18n="facebook">페이스북</span>
+            </button>
+            <button id="instagramShare" class="et-share-btn et-share-instagram">
+              <i class="fab fa-instagram"></i> <span data-i18n="instagram">인스타그램</span>
+            </button>
+            <button id="linkCopy" class="et-share-btn et-share-link">
+              <i class="fas fa-link"></i> <span data-i18n="copyLink">링크 복사</span>
+            </button>
+          </div>
+          <div id="copySuccessMessage" class="mt-3 text-center text-green-400 font-semibold hidden">
+            <i class="fas fa-check-circle mr-1"></i> <span data-i18n="copied">복사되었습니다!</span>
+          </div>
+        </div>
+
+        <div class="text-center mt-8">
+          <button id="retryBtn" class="et-btn et-btn-primary">
+            <i class="fas fa-redo-alt"></i> <span data-i18n="retryTest">다시 테스트하기</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="et-footer mt-10">
+    <div class="container mx-auto px-4 text-center">
+      <p data-i18n="copyright">&copy; 2025 EasyTest.</p>
+    </div>
+  </footer>
+
+  <!-- 다국어 시스템 로드 -->
+  <script src="../js/i18n.js"></script>
+  <script src="../js/challenge.js"></script>
+  <script src="script.js"></script>
+</body>
+<!-- 카카오 SDK 초기화 -->
+<script>
+  try {
+    if (typeof Kakao !== 'undefined' && Kakao) {
+      Kakao.init('eb68697db572e7c6b4abbf70207a69a1');
+      console.log('Kakao SDK 초기화 완료');
+      console.log('Kakao 앱 키 상태:', Kakao.isInitialized());
+    } else {
+      console.log('Kakao SDK가 로드되지 않았습니다');
+    }
+  } catch (e) {
+    console.log('Kakao SDK 초기화 실패:', e);
+  }
+</script>
+</html>
