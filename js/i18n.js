@@ -1731,7 +1731,7 @@ class I18n {
         if (!document.getElementById('lang-selector-styles')) {
             var style = document.createElement('style');
             style.id = 'lang-selector-styles';
-            style.textContent = '@media(max-width:480px){#language-selector{top:10px!important;right:10px!important;gap:2px!important;padding:4px 6px!important;border-radius:10px!important}#language-selector button{padding:4px 6px!important;font-size:14px!important}#language-selector .lang-name{display:none!important}}';
+            style.textContent = '@media(max-width:768px){#language-selector{top:10px!important;right:10px!important;gap:2px!important;padding:4px 6px!important;border-radius:10px!important}#language-selector button{padding:4px 6px!important;font-size:14px!important}#language-selector .lang-name{display:none!important}}';
             document.head.appendChild(style);
         }
 
