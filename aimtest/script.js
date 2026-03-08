@@ -28,6 +28,18 @@ document.addEventListener('DOMContentLoaded', function() {
   const linkCopy = document.getElementById('linkCopy');
   const copySuccessMessage = document.getElementById('copySuccessMessage');
 
+  // Seeded RNG for challenge mode
+  function createSeededRNG(seed) {
+    var s = seed;
+    return function() {
+      s = (s * 9301 + 49297) % 233280;
+      return s / 233280;
+    };
+  }
+  var rng = Math.random;
+  var challengeData = null;
+  var gameSeed = null;
+
   // 게임 상태
   let gameState = {
     testActive: false,
@@ -44,6 +56,25 @@ document.addEventListener('DOMContentLoaded', function() {
     average: { min: 250, max: 350, avg: 300 },
     limit: { min: 120, max: 150, avg: 135 }
   };
+
+  // Check for challenge mode
+  if (typeof ChallengeUtils !== 'undefined') {
+    challengeData = ChallengeUtils.parseChallenge();
+    if (challengeData && challengeData.testType === 'aim') {
+      gameSeed = challengeData.seed;
+      rng = createSeededRNG(gameSeed);
+      var challengeBanner = document.getElementById('challengeBanner');
+      if (challengeBanner) {
+        challengeBanner.classList.remove('hidden');
+        var preview = document.getElementById('opponentScorePreview');
+        if (preview) preview.textContent = challengeData.score + 'ms';
+      }
+    }
+  }
+  if (!gameSeed) {
+    gameSeed = typeof ChallengeUtils !== 'undefined' ? ChallengeUtils.generateSeed() : Math.floor(Math.random() * 2147483647);
+    rng = createSeededRNG(gameSeed);
+  }
 
   // 시작 버튼 이벤트
   startTestBtn.addEventListener('click', function() {
@@ -132,8 +163,8 @@ document.addEventListener('DOMContentLoaded', function() {
       const margin = 40;
       const containerWidth = gameContainer.clientWidth;
       const containerHeight = gameContainer.clientHeight;
-      const x = Math.random() * (containerWidth - 2 * margin) + margin;
-      const y = Math.random() * (containerHeight - 2 * margin) + margin;
+      const x = rng() * (containerWidth - 2 * margin) + margin;
+      const y = rng() * (containerHeight - 2 * margin) + margin;
       
       // 타겟 스타일 설정
       target.style.left = `${x}px`;
@@ -277,6 +308,33 @@ document.addEventListener('DOMContentLoaded', function() {
     addComparisonRow(window.i18n.getText('proGamer'), referenceData.proGamer.avg, averageScore - referenceData.proGamer.avg);
     addComparisonRow(window.i18n.getText('normalUser'), referenceData.average.avg, averageScore - referenceData.average.avg);
     
+    // Challenge comparison
+    if (challengeData) {
+      var compSection = document.getElementById('challengeComparison');
+      if (compSection) {
+        compSection.classList.remove('hidden');
+        document.getElementById('compOpponentScore').textContent = challengeData.score + 'ms';
+        document.getElementById('compMyScore').textContent = averageScore + 'ms';
+
+        var resultText = document.getElementById('challengeResultText');
+        // For aim test, LOWER average time is better
+        if (averageScore < challengeData.score) {
+          resultText.textContent = window.i18n.getText('challengeWin');
+          resultText.style.color = '#10b981';
+          document.getElementById('mySide').style.background = 'rgba(16,185,129,0.1)';
+          document.getElementById('mySide').style.border = '1px solid rgba(16,185,129,0.3)';
+        } else if (averageScore > challengeData.score) {
+          resultText.textContent = window.i18n.getText('challengeLose');
+          resultText.style.color = '#ef4444';
+          document.getElementById('opponentSide').style.background = 'rgba(16,185,129,0.1)';
+          document.getElementById('opponentSide').style.border = '1px solid rgba(16,185,129,0.3)';
+        } else {
+          resultText.textContent = window.i18n.getText('challengeDraw');
+          resultText.style.color = '#f59e0b';
+        }
+      }
+    }
+
     // 공유 버튼 설정
     setupShareButtons(averageScore);
   }
@@ -427,6 +485,32 @@ document.addEventListener('DOMContentLoaded', function() {
         });
       });
     }
+
+    // Challenge link
+    var createChallengeBtn = document.getElementById('createChallengeBtn');
+    var challengeLinkContainer = document.getElementById('challengeLinkContainer');
+    var challengeLinkInput = document.getElementById('challengeLink');
+    var copyChallengeLink = document.getElementById('copyChallengeLink');
+
+    if (createChallengeBtn && typeof ChallengeUtils !== 'undefined') {
+      createChallengeBtn.addEventListener('click', function() {
+        var url = ChallengeUtils.createChallengeURL('aim', gameSeed, score);
+        challengeLinkInput.value = url;
+        challengeLinkContainer.classList.remove('hidden');
+      });
+    }
+
+    if (copyChallengeLink) {
+      copyChallengeLink.addEventListener('click', function() {
+        navigator.clipboard.writeText(challengeLinkInput.value).then(function() {
+          if (copySuccessMessage) {
+            copySuccessMessage.textContent = window.i18n.getText('challengeLinkCopied');
+            copySuccessMessage.classList.remove('hidden');
+            setTimeout(function() { copySuccessMessage.classList.add('hidden'); }, 3000);
+          }
+        });
+      });
+    }
   }
 
   // 게임 리셋
@@ -439,6 +523,10 @@ document.addEventListener('DOMContentLoaded', function() {
       results: [],
       totalScore: 0
     };
+    if (!challengeData) {
+      gameSeed = typeof ChallengeUtils !== 'undefined' ? ChallengeUtils.generateSeed() : Math.floor(Math.random() * 2147483647);
+    }
+    rng = createSeededRNG(gameSeed);
     gameActionBtn.textContent = window.i18n.getText('start');
     gameActionBtn.disabled = false;
   }
