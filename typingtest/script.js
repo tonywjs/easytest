@@ -11,16 +11,49 @@ var gameSeed = null;
 
 class TypingTest {
     constructor() {
-        this.targetTexts = [
-            "커피 없이는 코딩이 불가능하다는 것은 과학적으로 증명된 사실입니다. 디버깅 중에는 더더욱 그렇죠.",
-            "스마트폰을 보다가 목이 아프면 거북목이 되고, 키보드를 치다가 손목이 아프면 개발자가 됩니다.",
-            "구글에서 검색하는 것도 실력이고, 스택오버플로우에서 복사하는 것도 능력입니다. 인정하세요.",
-            "월요일은 재시작 버튼이고, 금요일은 저장 버튼입니다. 주말은 시스템 업데이트 시간이에요.",
-            "인생은 마치 자바스크립트 같습니다. 예상대로 동작하지 않지만 어쨌든 돌아가거든요.",
-            "Wi-Fi가 안 되면 현대인은 석기시대로 돌아갑니다. 인터넷 연결을 확인해주세요.",
-            "백엔드 개발자는 사용자가 안 보는 것을 만들고, 프론트엔드 개발자는 백엔드가 안 보는 것을 만듭니다.",
-            "코드를 짜다 보면 밤이 새고, 밤을 새다 보면 코드가 더 꼬입니다. 악순환의 고리에요."
-        ];
+        this.targetTextsByLang = {
+            kr: [
+                "커피 없이는 코딩이 불가능하다는 것은 과학적으로 증명된 사실입니다. 디버깅 중에는 더더욱 그렇죠.",
+                "스마트폰을 보다가 목이 아프면 거북목이 되고, 키보드를 치다가 손목이 아프면 개발자가 됩니다.",
+                "구글에서 검색하는 것도 실력이고, 스택오버플로우에서 복사하는 것도 능력입니다. 인정하세요.",
+                "월요일은 재시작 버튼이고, 금요일은 저장 버튼입니다. 주말은 시스템 업데이트 시간이에요.",
+                "인생은 마치 자바스크립트 같습니다. 예상대로 동작하지 않지만 어쨌든 돌아가거든요.",
+                "Wi-Fi가 안 되면 현대인은 석기시대로 돌아갑니다. 인터넷 연결을 확인해주세요.",
+                "백엔드 개발자는 사용자가 안 보는 것을 만들고, 프론트엔드 개발자는 백엔드가 안 보는 것을 만듭니다.",
+                "코드를 짜다 보면 밤이 새고, 밤을 새다 보면 코드가 더 꼬입니다. 악순환의 고리에요."
+            ],
+            en: [
+                "The quick brown fox jumps over the lazy dog. This sentence contains every letter of the alphabet.",
+                "Programming is like writing a book. Except if you miss a single comma, the whole thing makes no sense.",
+                "There are only two hard things in computer science: cache invalidation, naming things, and off-by-one errors.",
+                "A good programmer looks both ways before crossing a one-way street. You can never be too careful with bugs.",
+                "Coffee is the fuel that powers the modern developer. Without it, no code would ever be written or debugged.",
+                "The best error message is the one that never shows up. The second best explains exactly what went wrong.",
+                "Code never lies, but comments sometimes do. Always trust what the code actually does over what it says.",
+                "First, solve the problem. Then, write the code. Most bugs come from solving the wrong problem first."
+            ],
+            ja: [
+                "プログラミングとは、コーヒーを飲みながらバグと戦う芸術です。デバッグ中はなおさらです。",
+                "月曜日はリスタートボタンで、金曜日はセーブボタンです。週末はシステムアップデートの時間です。",
+                "グーグルで検索するのも実力、スタックオーバーフローからコピーするのも能力です。認めましょう。",
+                "人生はまるでジャバスクリプトのようです。予想通りに動きませんが、とにかく動いています。",
+                "バックエンド開発者はユーザーが見えないものを作り、フロントエンド開発者は見えるものを作ります。",
+                "良いプログラマーは一方通行の道でも左右を確認します。バグには用心しすぎることはありません。",
+                "コードは嘘をつきませんが、コメントは時々嘘をつきます。コードの動作を信じましょう。",
+                "まず問題を解決し、それからコードを書きましょう。ほとんどのバグは問題の誤解から生まれます。"
+            ],
+            zh: [
+                "编程就像写一本书，只不过少了一个逗号，整本书就完全说不通了。这就是程序员的日常。",
+                "咖啡是现代程序员的燃料。没有咖啡，就没有代码，也没有调试，更没有深夜加班的动力。",
+                "计算机科学中只有两件难事：缓存失效和命名。还有差一错误，这是第三件难事。",
+                "一个好的程序员在过单行道时也会左右看。对于程序中的错误，你永远不能太小心。",
+                "代码从不说谎，但注释有时会。永远相信代码实际做了什么，而不是它说了什么。",
+                "星期一是重启按钮，星期五是保存按钮。周末是系统更新时间，请不要打扰程序员。",
+                "后端开发者创造用户看不到的东西，前端开发者让用户看到后端创造的东西。团队合作很重要。",
+                "先解决问题，再写代码。大多数错误都来自于一开始就解决了错误的问题。记住这个教训。"
+            ]
+        };
+        this.targetTexts = this.targetTextsByLang.kr;
         
         this.currentText = "";
         this.startTime = null;
@@ -96,6 +129,8 @@ class TypingTest {
     }
     
     loadRandomText() {
+        var lang = (window.i18n && window.i18n.currentLang) ? window.i18n.currentLang : 'kr';
+        this.targetTexts = this.targetTextsByLang[lang] || this.targetTextsByLang.kr;
         const randomIndex = Math.floor(rng() * this.targetTexts.length);
         this.currentText = this.targetTexts[randomIndex];
         this.usingCustomText = false;
